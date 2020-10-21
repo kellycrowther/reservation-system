@@ -1,12 +1,12 @@
 const express = require("express");
 const router = new express.Router();
-const { Activity } = require("./models");
+const { Activity } = require("../models/index");
 
 // Your API endpoints should be implemented here
 
 // GET /api/activities
 // Returns an array of all activities
-router.get("/activities", async (req, res) => {
+router.get("/", async (req, res) => {
   let options = {};
   if (typeof req.query.isActive !== "undefined") {
     const where = {
@@ -26,7 +26,7 @@ router.get("/activities", async (req, res) => {
 
 // POST /api/activities
 // Return an object of the new activities
-router.post("/activities", async (req, res) => {
+router.post("/", async (req, res) => {
   try {
     const shipment = await Activity.create(req.body);
     res.json(shipment);
