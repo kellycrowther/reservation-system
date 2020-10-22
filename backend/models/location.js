@@ -1,23 +1,22 @@
 const { Model, DataTypes } = require("sequelize");
 const sequelize = require("../db");
 const { Sequelize } = require("sequelize");
-const { Location } = require("./location");
 
-class Activity extends Model {
+class Location extends Model {
   async test() {}
 }
 
-Activity.init(
+Location.init(
   {
     id: {
-      type: DataTypes.UUID,
-      defaultValue: Sequelize.UUIDV4,
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
       primaryKey: true,
     },
     name: {
       type: DataTypes.STRING,
       allowNull: false
-    },
+    }
   },
   {
     sequelize,
@@ -25,9 +24,6 @@ Activity.init(
   }
 );
 
-Location.hasMany(Activity, { foreignKey: 'activityId', as: 'activity'});
-Activity.belongsTo(Location, { foreignKey: 'locationId', as: 'location'});
-
 module.exports = {
-  Activity,
+  Location,
 };
