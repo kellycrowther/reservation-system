@@ -1,8 +1,7 @@
 
-const { Activity } = require("../backend/models");
-const { Location } = require("../backend/models")
+const { Activity, Reservation, Location } = require("../backend/models");
 
-const seeds = [
+const activitySeeds = [
   {
     name: "hello",
     locationId: 1
@@ -22,9 +21,19 @@ const locationSeeds = [
   },
 ];
 
+const reservationSeeds = [
+  {
+    name: "my first reservation",
+  },
+  {
+    name: "another reservation",
+  },
+];
+
 (async () => {
   await Activity.sync({ force: true });
   await Location.sync({ force: true });
+  await Reservation.sync({ force: true });
 
   await Promise.all(
     locationSeeds.map(async (data) => {
@@ -34,9 +43,16 @@ const locationSeeds = [
   );
 
   await Promise.all(
-    seeds.map(async (data) => {
+    activitySeeds.map(async (data) => {
       const activity = await Activity.create(data)
       console.log(`Created activitiy with ID ${activity.id}`);
+    })
+  );
+
+  await Promise.all(
+    reservationSeeds.map(async (data) => {
+      const activity = await Reservation.create(data)
+      console.log(`Created reservation with ID ${activity.id}`);
     })
   );
   console.log("Database seeded successfully.");
