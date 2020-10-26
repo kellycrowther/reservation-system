@@ -10,13 +10,13 @@ class Activity extends Model {
 Activity.init(
   {
     id: {
-      type: DataTypes.UUID,
+      type: DataTypes.UUIDV4,
       defaultValue: Sequelize.UUIDV4,
       primaryKey: true,
     },
     name: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
   },
   {
@@ -25,8 +25,10 @@ Activity.init(
   }
 );
 
-Location.hasMany(Activity, { foreignKey: 'activityId', as: 'activity'});
-Activity.belongsTo(Location, { foreignKey: 'locationId', as: 'location'});
+Location.hasMany(Activity, { foreignKey: "activityId", as: "activity" });
+Activity.belongsTo(Location, { foreignKey: "locationId", as: "location" });
+
+Activity.sync({ alter: true });
 
 module.exports = {
   Activity,

@@ -15,14 +15,16 @@ Location.init(
     },
     name: {
       type: DataTypes.STRING,
-      allowNull: false
-    }
+      allowNull: false,
+    },
   },
   {
     sequelize,
     timestamps: true,
   }
 );
+
+Location.sync({ alter: true });
 
 module.exports = {
   Location,

@@ -15,14 +15,16 @@ Reservation.init(
     },
     name: {
       type: DataTypes.STRING,
-      allowNull: false
-    }
+      allowNull: false,
+    },
   },
   {
     sequelize,
     timestamps: true,
   }
 );
+
+Reservation.sync({ alter: true });
 
 module.exports = {
   Reservation,
