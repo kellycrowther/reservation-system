@@ -46,6 +46,7 @@ User.init(
   }
 );
 
+// Init table
 User.sync({ alter: true });
 
 module.exports = {

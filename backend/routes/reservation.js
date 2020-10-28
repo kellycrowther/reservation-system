@@ -25,6 +25,7 @@ module.exports = router;
 function createReservationSchema(req, res, next) {
   const schema = Joi.object({
     name: Joi.string().required(),
+    userId: Joi.string().required(),
   });
   validateRequest(req, next, schema);
 }

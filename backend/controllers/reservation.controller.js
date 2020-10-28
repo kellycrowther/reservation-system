@@ -12,7 +12,7 @@ module.exports = {
 function create(req, res, next) {
   reservationService
     .create(req.body)
-    .then(() => res.json({ message: "Reservation successful" }))
+    .then((reservation) => res.json(reservation))
     .catch(next);
 }
 

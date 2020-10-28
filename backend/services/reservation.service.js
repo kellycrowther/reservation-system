@@ -23,7 +23,7 @@ async function getById(id) {
 }
 
 async function create(params) {
-  await Reservation.create(params);
+  return await Reservation.create(params);
 }
 
 async function update(id, params) {

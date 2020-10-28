@@ -25,6 +25,7 @@ Activity.init(
   }
 );
 
+// Relationships
 Location.hasMany(Activity, { foreignKey: "activityId", as: "activity" });
 Activity.belongsTo(Location, { foreignKey: "locationId", as: "location" });
 
