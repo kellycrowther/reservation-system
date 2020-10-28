@@ -1,40 +1,34 @@
 const express = require("express");
 const router = new express.Router();
-const { Activity } = require("../models/index");
+const Joi = require("joi");
+const validateRequest = require("../_middleware/validate-request");
 
-// Your API endpoints should be implemented here
+const {
+  getAll,
+  getById,
+  update,
+  create,
+  _delete,
+} = require("../controllers/activity.controller");
 
-// GET /api/activities
-// Returns an array of all activities
-router.get("/", async (req, res) => {
-  let options = {include: 'location', attributes: { exclude: ['locationId', 'activityId' ]}};
-  if (typeof req.query.isActive !== "undefined") {
-    const where = {
-      where: {
-        isActive: JSON.parse(req.query.isActive),
-      },
-    };
-    options = { ...where };
-  }
-  try {
-    const shipments = await Activity.findAll(options);
-    res.json(shipments);
-  } catch (err) {
-    console.info('ERROR: ', err);
-    res.status(400).json(err.errors);
-  }
-});
-
-// POST /api/activities
-// Return an object of the new activity
-router.post("/", async (req, res) => {
-  try {
-    const shipment = await Activity.create(req.body);
-    res.json(shipment);
-  } catch (err) {
-    res.status(400).json(err.errors);
-  }
-});
-
+router.get("/", getAll);
+router.get("/:id", getById);
+router.post("/", createActivitySchema, create);
+router.put("/:id", updateActivitySchema, update);
+router.delete("/:id", _delete);
 
 module.exports = router;
+
+function createActivitySchema(req, res, next) {
+  const schema = Joi.object({
+    name: Joi.string().required(),
+  });
+  validateRequest(req, next, schema);
+}
+
+function updateActivitySchema(req, res, next) {
+  const schema = Joi.object({
+    name: Joi.string().empty(""),
+  });
+  validateRequest(req, next, schema);
+}
