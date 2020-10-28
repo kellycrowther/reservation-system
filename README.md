@@ -5,6 +5,7 @@
 - relate one activity to many reservation
 - activity should return available dates (range of beginning and end dates)
 - figure out what controllers are used for
+- global error handler
 
 ## Plans
 
