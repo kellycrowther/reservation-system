@@ -2,11 +2,11 @@ const express = require("express");
 const router = new express.Router();
 
 const activity = require("./activity");
-const my = require("./my");
 const user = require("./user");
+const reservation = require("./reservation");
 
 router.use("/activities", activity);
-router.use("/my", my);
 router.use("/users", user);
+router.use("/reservations", reservation);
 
 module.exports = router;
