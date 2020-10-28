@@ -2,6 +2,7 @@ const { Activity } = require("../models");
 
 module.exports = {
   getAll,
+  getAllByUser,
   getById,
   create,
   update,
@@ -10,6 +11,11 @@ module.exports = {
 
 async function getAll() {
   return await Activity.findAll();
+}
+
+async function getAllByUser(user) {
+  const { id } = user;
+  return await Activity.findAll({ where: { userId: id } });
 }
 
 async function getById(id) {

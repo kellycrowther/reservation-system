@@ -2,6 +2,7 @@ const { activityService } = require("../services");
 
 module.exports = {
   getAll,
+  getAllByUser,
   getById,
   update,
   create,
@@ -18,6 +19,13 @@ function create(req, res, next) {
 function getAll(req, res, next) {
   activityService
     .getAll()
+    .then((activities) => res.json(activities))
+    .catch(next);
+}
+
+function getAllByUser(req, res, next) {
+  reservationService
+    .getAllByUser(req.user)
     .then((activities) => res.json(activities))
     .catch(next);
 }

@@ -9,9 +9,12 @@ const {
   update,
   create,
   _delete,
+  getAllByUser,
 } = require("../controllers/reservation.controller");
+const authorize = require("../_middleware/authorize");
 
 router.get("/", getAll);
+router.get("/my", authorize(), getAllByUser);
 router.get("/:id", getById);
 router.post("/", createReservationSchema, create);
 router.put("/:id", updateReservationSchema, update);
