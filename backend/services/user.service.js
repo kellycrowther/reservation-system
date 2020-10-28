@@ -51,8 +51,6 @@ async function create(params) {
 async function update(id, params) {
   const user = await getUser(id);
 
-  console.info("PARAMS: ", params);
-
   const usernameChanged = params.username && user.username !== params.username;
   if (
     usernameChanged &&

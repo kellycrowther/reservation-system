@@ -1,33 +1,34 @@
 const express = require("express");
 const router = new express.Router();
-const { Reservation } = require("../models/index");
+const Joi = require("joi");
+const validateRequest = require("../_middleware/validate-request");
 
-// Your API endpoints should be implemented here
+const {
+  getAll,
+  getById,
+  update,
+  create,
+  _delete,
+} = require("../controllers/reservation.controller");
 
-// GET /api/my/reservations
-// Returns an array of all reservations
-router.get("/", async (req, res) => {
-  let options = {};
-
-  try {
-    const reservations = await Reservation.findAll(options);
-    res.json(reservations);
-  } catch (err) {
-    console.info('ERROR: ', err);
-    res.status(400).json(err.errors);
-  }
-});
-
-// POST /api/my/reservations
-// Return an object of the new reservation
-router.post("/", async (req, res) => {
-  try {
-    const reservation = await Reservation.create(req.body);
-    res.json(reservation);
-  } catch (err) {
-    res.status(400).json(err.errors);
-  }
-});
-
+router.get("/", getAll);
+router.get("/:id", getById);
+router.post("/", createReservationSchema, create);
+router.put("/:id", updateReservationSchema, update);
+router.delete("/:id", _delete);
 
 module.exports = router;
+
+function createReservationSchema(req, res, next) {
+  const schema = Joi.object({
+    name: Joi.string().required(),
+  });
+  validateRequest(req, next, schema);
+}
+
+function updateReservationSchema(req, res, next) {
+  const schema = Joi.object({
+    name: Joi.string().empty(""),
+  });
+  validateRequest(req, next, schema);
+}

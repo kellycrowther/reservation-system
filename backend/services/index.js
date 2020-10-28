@@ -1,7 +1,9 @@
 const userService = require("./user.service");
+const reservationService = require("./reservation.service");
 
 const services = {
-  ...userService,
+  userService,
+  reservationService,
 };
 
 module.exports = services;
