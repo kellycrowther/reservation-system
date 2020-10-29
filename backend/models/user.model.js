@@ -35,7 +35,7 @@ function model(sequelize) {
     timestamps: true,
     defaultScope: {
       attributes: {
-        exclude: ["hash"],
+        exclude: ["hash", "password"],
       },
     },
     scopes: {

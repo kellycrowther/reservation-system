@@ -45,7 +45,7 @@ async function create(params) {
     params.password = await bcrypt.hash(params.password, 10);
   }
 
-  await db.User.create(params);
+  return await db.User.create(params);
 }
 
 async function update(id, params) {
