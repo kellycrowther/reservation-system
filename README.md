@@ -1,3 +1,9 @@
+## Starting the app
+
+- Must have MySql installed
+- Start MySql: `brew services start mysql`
+- `npm run start`
+
 ## To Do
 
 - change activity to relate to many locations
