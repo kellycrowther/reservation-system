@@ -17,6 +17,11 @@ function model(sequelize) {
 
   const options = {
     timestamps: true,
+    defaultScope: {
+      attributes: {
+        exclude: ["activityId"],
+      },
+    },
   };
 
   return sequelize.define("Reservation", attributes, options);

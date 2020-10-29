@@ -25,7 +25,7 @@ async function initialize() {
   makeDb(sequelize);
 
   // sync all models with database
-  await sequelize.sync({ force: true });
+  await sequelize.sync({ alter: true });
 }
 
 function makeDb(sequelize) {
@@ -40,6 +40,9 @@ function makeDb(sequelize) {
 
   // define relationships
   Reservation.belongsTo(User, { foreignKey: "userId" });
+  Reservation.belongsTo(Activity, { foreignKey: "activityId", as: "activity" });
+  Reservation.belongsTo(Location, { foreignKey: "locationId", as: "location" });
+
   Location.belongsToMany(Activity, {
     foreignKey: "locationId",
     through: ActivityLocationJoin,

@@ -10,12 +10,24 @@ module.exports = {
 };
 
 async function getAll() {
-  return await db.Reservation.findAll();
+  return await db.Reservation.findAll({
+    include: [
+      { model: db.Location, as: "location" },
+      { model: db.Activity, as: "activity" },
+    ],
+    exclude: ["activityId"],
+  });
 }
 
 async function getAllByUser(user) {
   const { id } = user;
-  return await db.Reservation.findAll({ where: { userId: id } });
+  return await db.Reservation.findAll({
+    where: { userId: id },
+    include: [
+      { model: db.Location, as: "location" },
+      { model: db.Activity, as: "activity" },
+    ],
+  });
 }
 
 async function getById(id) {
@@ -42,7 +54,12 @@ async function _delete(id) {
 
 // helpers
 async function getReservation(id) {
-  const reservation = await db.Reservation.findByPk(id);
+  const reservation = await db.Reservation.findByPk(id, {
+    include: [
+      { model: db.Location, as: "location" },
+      { model: db.Activity, as: "activity" },
+    ],
+  });
   if (!reservation) {
     throw "Reservation not found";
   }
