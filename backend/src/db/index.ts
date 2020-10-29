@@ -1,7 +1,8 @@
 import { config } from "../config";
 import * as mysql from "mysql2/promise";
 import { Sequelize } from "sequelize";
-import { model as userModel, UserModelStatic } from "../models/user.model";
+import { model as userModel } from "../models/user.model";
+import { UserModelStatic } from "../interfaces/user.interface";
 
 export { db };
 
