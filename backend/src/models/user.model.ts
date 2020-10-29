@@ -1,12 +1,26 @@
-const { Sequelize, DataTypes } = require("sequelize");
+import { Sequelize, DataTypes, Model, BuildOptions } from "sequelize";
 
-module.exports = model;
+export { model };
+
+interface UserAttributes extends Model {
+  id: string;
+  firstName: string;
+  lastName: string;
+  username: string;
+  email: string;
+  password: string;
+}
+
+// Need to declare the static model so `findOne` etc. use correct types.
+export type UserModelStatic = typeof Model & {
+  new (values?: object, options?: BuildOptions): UserAttributes;
+};
 
 function model(sequelize) {
   const attributes = {
     id: {
       type: DataTypes.UUID,
-      defaultValue: Sequelize.UUIDV4,
+      defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
     firstName: {
@@ -43,5 +57,5 @@ function model(sequelize) {
     },
   };
 
-  return sequelize.define("User", attributes, options);
+  return <UserModelStatic>sequelize.define("User", attributes, options);
 }

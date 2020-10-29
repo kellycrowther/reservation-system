@@ -1,8 +1,8 @@
-const express = require("express");
-const router = new express.Router();
+import * as express from "express";
+const router = express.Router();
 const Joi = require("joi");
 const validateRequest = require("../_middleware/validate-request");
-const authorize = require("../_middleware/authorize");
+import { authorize } from "../_middleware/authorize";
 const {
   getCurrent,
   authenticate,

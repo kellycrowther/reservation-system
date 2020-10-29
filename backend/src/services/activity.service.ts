@@ -1,4 +1,4 @@
-const db = require("../db/index");
+import { db } from "../db/index";
 
 module.exports = {
   getAll,

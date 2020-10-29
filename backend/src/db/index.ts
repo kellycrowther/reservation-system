@@ -1,8 +1,18 @@
-const config = require("../config.json");
-const mysql = require("mysql2/promise");
-const { Sequelize } = require("sequelize");
+import { config } from "../config";
+import * as mysql from "mysql2/promise";
+import { Sequelize } from "sequelize";
+import { model as userModel, UserModelStatic } from "../models/user.model";
 
-module.exports = db = {};
+export { db };
+
+interface IDatabase {
+  User: UserModelStatic;
+  Activity: any;
+  Reservation: any;
+  Location: any;
+}
+
+let db: IDatabase = <IDatabase>{};
 
 initialize();
 
@@ -22,15 +32,16 @@ async function initialize() {
     dialect: "mysql",
   });
 
-  makeDb(sequelize);
+  db = makeDb(sequelize);
 
   // sync all models with database
   await sequelize.sync({ alter: true });
 }
 
-function makeDb(sequelize) {
+function makeDb(sequelize): IDatabase {
+  let db: IDatabase = <IDatabase>{};
   // init models and add them to the exported db object
-  const User = require("../models/user.model")(sequelize);
+  const User = userModel(sequelize);
   const Reservation = require("../models/reservation")(sequelize);
   const Location = require("../models/location")(sequelize);
   const Activity = require("../models/activity")(sequelize);
@@ -58,4 +69,5 @@ function makeDb(sequelize) {
   db.Reservation = Reservation;
   db.Location = Location;
   db.Activity = Activity;
+  return db;
 }

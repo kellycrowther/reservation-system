@@ -1,7 +1,8 @@
-const express = require("express");
+import * as express from "express";
+import * as bodyParser from "body-parser";
+
 const routes = require("./routes/index");
 const cors = require("cors");
-const bodyParser = require("body-parser");
 const errorHandler = require("./_middleware/error-handler");
 
 const { PORT } = process.env;

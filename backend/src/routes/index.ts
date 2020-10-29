@@ -1,5 +1,5 @@
-const express = require("express");
-const router = new express.Router();
+import * as express from "express";
+const router = express.Router();
 
 const activity = require("./activity");
 const user = require("./user");

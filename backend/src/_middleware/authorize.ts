@@ -1,10 +1,9 @@
-const jwt = require("express-jwt");
-const { secret } = require("../config.json");
-const db = require("../db/index");
+import * as jwt from "express-jwt";
+import { config } from "../config";
+import { db } from "../db/index";
 
-module.exports = authorize;
-
-function authorize() {
+export function authorize() {
+  const { secret } = config;
   return [
     // authenticate and attach the token
     jwt({ secret, algorithms: ["HS256"] }),
