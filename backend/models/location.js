@@ -1,13 +1,9 @@
-const { Model, DataTypes } = require("sequelize");
-const sequelize = require("../db");
-const { Sequelize } = require("sequelize");
+const { DataTypes } = require("sequelize");
 
-class Location extends Model {
-  async test() {}
-}
+module.exports = model;
 
-Location.init(
-  {
+function model(sequelize) {
+  const attributes = {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
@@ -17,15 +13,11 @@ Location.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-  },
-  {
-    sequelize,
+  };
+
+  const options = {
     timestamps: true,
-  }
-);
+  };
 
-Location.sync({ alter: true });
-
-module.exports = {
-  Location,
-};
+  return sequelize.define("Location", attributes, options);
+}

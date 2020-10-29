@@ -9,15 +9,11 @@ function model(sequelize) {
       defaultValue: Sequelize.UUIDV4,
       primaryKey: true,
     },
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
   };
 
   const options = {
     timestamps: true,
   };
 
-  return sequelize.define("Reservation", attributes, options);
+  return sequelize.define("ActivityLocationJoin", attributes, options);
 }

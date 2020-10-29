@@ -1,16 +1,12 @@
-const { Model, DataTypes } = require("sequelize");
-const sequelize = require("../db");
-const { Sequelize } = require("sequelize");
-const { Location } = require("./location");
+const { Sequelize, DataTypes } = require("sequelize");
+// const { Location } = require("./location");
 
-class Activity extends Model {
-  async test() {}
-}
+module.exports = model;
 
-Activity.init(
-  {
+function model(sequelize) {
+  const attributes = {
     id: {
-      type: DataTypes.UUIDV4,
+      type: DataTypes.UUID,
       defaultValue: Sequelize.UUIDV4,
       primaryKey: true,
     },
@@ -18,19 +14,11 @@ Activity.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-  },
-  {
-    sequelize,
+  };
+
+  const options = {
     timestamps: true,
-  }
-);
+  };
 
-// Relationships
-Location.hasMany(Activity, { foreignKey: "activityId", as: "activity" });
-Activity.belongsTo(Location, { foreignKey: "locationId", as: "location" });
-
-Activity.sync({ alter: true });
-
-module.exports = {
-  Activity,
-};
+  return sequelize.define("Activity", attributes, options);
+}

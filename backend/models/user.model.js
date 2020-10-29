@@ -1,13 +1,11 @@
-const { Model, DataTypes } = require("sequelize");
-const { Sequelize } = require("../db");
-const sequelize = require("../db");
+const { Sequelize, DataTypes } = require("sequelize");
 
-class User extends Model {}
+module.exports = model;
 
-User.init(
-  {
+function model(sequelize) {
+  const attributes = {
     id: {
-      type: DataTypes.UUIDV4,
+      type: DataTypes.UUID,
       defaultValue: Sequelize.UUIDV4,
       primaryKey: true,
     },
@@ -31,9 +29,9 @@ User.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-  },
-  {
-    sequelize,
+  };
+
+  const options = {
     timestamps: true,
     defaultScope: {
       attributes: {
@@ -43,12 +41,7 @@ User.init(
     scopes: {
       withHash: { attributes: {} },
     },
-  }
-);
+  };
 
-// Init table
-User.sync({ alter: true });
-
-module.exports = {
-  User,
-};
+  return sequelize.define("User", attributes, options);
+}

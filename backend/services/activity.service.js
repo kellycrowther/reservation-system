@@ -1,4 +1,4 @@
-const { Activity } = require("../models");
+const db = require("../db/index");
 
 module.exports = {
   getAll,
@@ -10,12 +10,14 @@ module.exports = {
 };
 
 async function getAll() {
-  return await Activity.findAll();
+  return await db.Activity.findAll({
+    include: [{ model: db.Location, as: "locations" }],
+  });
 }
 
 async function getAllByUser(user) {
   const { id } = user;
-  return await Activity.findAll({ where: { userId: id } });
+  return await db.Activity.findAll({ where: { userId: id } });
 }
 
 async function getById(id) {
@@ -23,7 +25,7 @@ async function getById(id) {
 }
 
 async function create(params) {
-  await Activity.create(params);
+  await db.Activity.create(params);
 }
 
 async function update(id, params) {
@@ -42,7 +44,7 @@ async function _delete(id) {
 
 // helpers
 async function getActivity(id) {
-  const activity = await Activity.findByPk(id);
+  const activity = await db.Activity.findByPk(id);
   if (!activity) {
     throw "Activity not found";
   }

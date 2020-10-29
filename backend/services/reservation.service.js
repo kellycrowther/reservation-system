@@ -1,4 +1,4 @@
-const { Reservation } = require("../models");
+const db = require("../db/index");
 
 module.exports = {
   getAll,
@@ -10,12 +10,12 @@ module.exports = {
 };
 
 async function getAll() {
-  return await Reservation.findAll();
+  return await db.Reservation.findAll();
 }
 
 async function getAllByUser(user) {
   const { id } = user;
-  return await Reservation.findAll({ where: { userId: id } });
+  return await db.Reservation.findAll({ where: { userId: id } });
 }
 
 async function getById(id) {
@@ -23,7 +23,7 @@ async function getById(id) {
 }
 
 async function create(params) {
-  return await Reservation.create(params);
+  return await db.Reservation.create(params);
 }
 
 async function update(id, params) {
@@ -42,7 +42,7 @@ async function _delete(id) {
 
 // helpers
 async function getReservation(id) {
-  const reservation = await Reservation.findByPk(id);
+  const reservation = await db.Reservation.findByPk(id);
   if (!reservation) {
     throw "Reservation not found";
   }
