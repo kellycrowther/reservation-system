@@ -1,13 +1,12 @@
-const { Sequelize, DataTypes } = require("sequelize");
-// const { Location } = require("./location");
+import { DataTypes } from "sequelize";
 
-module.exports = model;
+export { model };
 
 function model(sequelize) {
   const attributes = {
     id: {
       type: DataTypes.UUID,
-      defaultValue: Sequelize.UUIDV4,
+      defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
     name: {
@@ -18,7 +17,12 @@ function model(sequelize) {
 
   const options = {
     timestamps: true,
+    defaultScope: {
+      attributes: {
+        exclude: ["activityId"],
+      },
+    },
   };
 
-  return sequelize.define("Activity", attributes, options);
+  return sequelize.define("Reservation", attributes, options);
 }

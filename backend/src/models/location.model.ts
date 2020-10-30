@@ -1,6 +1,6 @@
-const { DataTypes } = require("sequelize");
+import { DataTypes } from "sequelize";
 
-module.exports = model;
+export { model };
 
 function model(sequelize) {
   const attributes = {

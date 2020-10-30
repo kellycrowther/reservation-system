@@ -1,12 +1,12 @@
-const { Sequelize, DataTypes } = require("sequelize");
+import { DataTypes } from "sequelize";
 
-module.exports = model;
+export { model };
 
 function model(sequelize) {
   const attributes = {
     id: {
       type: DataTypes.UUID,
-      defaultValue: Sequelize.UUIDV4,
+      defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
   };

@@ -2,6 +2,10 @@ import { config } from "../config";
 import * as mysql from "mysql2/promise";
 import { Sequelize } from "sequelize";
 import { model as userModel } from "../models/user.model";
+import { model as reservationModel } from "../models/reservation.model";
+import { model as locationModel } from "../models/location.model";
+import { model as activityModel } from "../models/activity.model";
+import { model as activityLocationJoinModel } from "../models/activity.model";
 import { UserModelStatic } from "../interfaces/user.interface";
 
 export { db };
@@ -43,12 +47,10 @@ function makeDb(sequelize): IDatabase {
   let db: IDatabase = <IDatabase>{};
   // init models and add them to the exported db object
   const User = userModel(sequelize);
-  const Reservation = require("../models/reservation")(sequelize);
-  const Location = require("../models/location")(sequelize);
-  const Activity = require("../models/activity")(sequelize);
-  const ActivityLocationJoin = require("../models/activity-location.join")(
-    sequelize
-  );
+  const Reservation = reservationModel(sequelize);
+  const Location = locationModel(sequelize);
+  const Activity = activityModel(sequelize);
+  const ActivityLocationJoin = activityLocationJoinModel(sequelize);
 
   // define relationships
   Reservation.belongsTo(User, { foreignKey: "userId" });
