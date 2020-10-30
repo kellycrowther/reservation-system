@@ -3,7 +3,7 @@ const router = express.Router();
 const Joi = require("joi");
 const validateRequest = require("../_middleware/validate-request");
 import { authorize } from "../_middleware/authorize";
-const {
+import {
   getCurrent,
   authenticate,
   register,
@@ -11,7 +11,7 @@ const {
   getById,
   update,
   _delete,
-} = require("../controllers/user.controller");
+} from "../controllers/user.controller";
 
 router.post("/authenticate", authenticateSchema, authenticate);
 router.post("/register", registerSchema, register);

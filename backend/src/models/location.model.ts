@@ -1,4 +1,5 @@
 import { DataTypes } from "sequelize";
+import { LocationModelStatic } from "../interfaces/location.interface";
 
 export { model };
 
@@ -19,5 +20,5 @@ function model(sequelize) {
     timestamps: true,
   };
 
-  return sequelize.define("Location", attributes, options);
+  return <LocationModelStatic>sequelize.define("Location", attributes, options);
 }

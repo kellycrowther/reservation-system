@@ -3,14 +3,14 @@ const router = express.Router();
 const Joi = require("joi");
 const validateRequest = require("../_middleware/validate-request");
 
-const {
+import {
   getAll,
   getById,
   update,
   create,
   _delete,
   getAllByUser,
-} = require("../controllers/reservation.controller");
+} from "../controllers/reservation.controller";
 import { authorize } from "../_middleware/authorize";
 
 router.get("/", getAll);

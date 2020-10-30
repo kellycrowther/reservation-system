@@ -1,26 +1,18 @@
 import { db } from "../db/index";
 
-module.exports = {
-  getAll,
-  getById,
-  create,
-  update,
-  delete: _delete,
-};
-
-async function getAll() {
+export async function getAll() {
   return await db.Location.findAll();
 }
 
-async function getById(id) {
+export async function getById(id) {
   return await getLocation(id);
 }
 
-async function create(params) {
+export async function create(params) {
   return await db.Location.create(params);
 }
 
-async function update(id, params) {
+export async function update(id, params) {
   const location = await getLocation(id);
 
   Object.assign(location, params);
@@ -29,7 +21,7 @@ async function update(id, params) {
   return location.get();
 }
 
-async function _delete(id) {
+export async function _delete(id) {
   const location = await getLocation(id);
   await location.destroy();
 }

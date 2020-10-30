@@ -1,4 +1,5 @@
 import { DataTypes } from "sequelize";
+import { ActivityModelStatic } from "../interfaces/activity.interface";
 
 export { model };
 
@@ -19,5 +20,5 @@ function model(sequelize) {
     timestamps: true,
   };
 
-  return sequelize.define("Activity", attributes, options);
+  return <ActivityModelStatic>sequelize.define("Activity", attributes, options);
 }

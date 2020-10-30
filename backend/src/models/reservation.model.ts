@@ -1,4 +1,5 @@
 import { DataTypes } from "sequelize";
+import { ReservationModelStatic } from "../interfaces/reservation.interface";
 
 export { model };
 
@@ -24,5 +25,7 @@ function model(sequelize) {
     },
   };
 
-  return sequelize.define("Reservation", attributes, options);
+  return <ReservationModelStatic>(
+    sequelize.define("Reservation", attributes, options)
+  );
 }

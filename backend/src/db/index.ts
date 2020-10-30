@@ -7,14 +7,17 @@ import { model as locationModel } from "../models/location.model";
 import { model as activityModel } from "../models/activity.model";
 import { model as activityLocationJoinModel } from "../models/activity.model";
 import { UserModelStatic } from "../interfaces/user.interface";
+import { ReservationModelStatic } from "../interfaces/reservation.interface";
+import { LocationModelStatic } from "../interfaces/location.interface";
+import { ActivityModelStatic } from "../interfaces/activity.interface";
 
 export { db };
 
 interface IDatabase {
   User: UserModelStatic;
-  Activity: any;
-  Reservation: any;
-  Location: any;
+  Activity: ActivityModelStatic;
+  Reservation: ReservationModelStatic;
+  Location: LocationModelStatic;
 }
 
 let db: IDatabase = <IDatabase>{};

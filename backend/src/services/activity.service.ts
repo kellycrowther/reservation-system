@@ -1,34 +1,25 @@
 import { db } from "../db/index";
 
-module.exports = {
-  getAll,
-  getAllByUser,
-  getById,
-  create,
-  update,
-  delete: _delete,
-};
-
-async function getAll() {
+export async function getAll() {
   return await db.Activity.findAll({
     include: [{ model: db.Location, as: "locations" }],
   });
 }
 
-async function getAllByUser(user) {
+export async function getAllByUser(user) {
   const { id } = user;
   return await db.Activity.findAll({ where: { userId: id } });
 }
 
-async function getById(id) {
+export async function getById(id) {
   return await getActivity(id);
 }
 
-async function create(params) {
+export async function create(params) {
   await db.Activity.create(params);
 }
 
-async function update(id, params) {
+export async function update(id, params) {
   const activity = await getActivity(id);
 
   Object.assign(activity, params);
@@ -37,7 +28,7 @@ async function update(id, params) {
   return activity.get();
 }
 
-async function _delete(id) {
+export async function _delete(id) {
   const activity = await getActivity(id);
   await activity.destroy();
 }

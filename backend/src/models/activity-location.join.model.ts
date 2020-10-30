@@ -1,4 +1,5 @@
 import { DataTypes } from "sequelize";
+import { ActivityLocationModelStatic } from "../interfaces/activity-location.join.interface";
 
 export { model };
 
@@ -15,5 +16,7 @@ function model(sequelize) {
     timestamps: true,
   };
 
-  return sequelize.define("ActivityLocationJoin", attributes, options);
+  return <ActivityLocationModelStatic>(
+    sequelize.define("ActivityLocationJoin", attributes, options)
+  );
 }

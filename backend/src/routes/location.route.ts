@@ -3,13 +3,13 @@ const router = express.Router();
 const Joi = require("joi");
 const validateRequest = require("../_middleware/validate-request");
 
-const {
+import {
   getAll,
   getById,
   update,
   create,
   _delete,
-} = require("../controllers/location.controller");
+} from "../controllers/location.controller";
 
 router.get("/", getAll);
 router.get("/:id", getById);

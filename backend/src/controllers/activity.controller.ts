@@ -1,52 +1,43 @@
-const { activityService } = require("../services");
+import * as activityService from "../services/activity.service";
 
-module.exports = {
-  getAll,
-  getAllByUser,
-  getById,
-  update,
-  create,
-  _delete,
-};
-
-function create(req, res, next) {
+export function create(req, res, next) {
   activityService
     .create(req.body)
     .then(() => res.json({ message: "Create activity successful" }))
     .catch(next);
 }
 
-function getAll(req, res, next) {
+export function getAll(req, res, next) {
   activityService
     .getAll()
     .then((activities) => res.json(activities))
     .catch(next);
 }
 
-function getAllByUser(req, res, next) {
-  reservationService
+export function getAllByUser(req, res, next) {
+  activityService
     .getAllByUser(req.user)
     .then((activities) => res.json(activities))
     .catch(next);
 }
 
-function getById(req, res, next) {
+export function getById(req, res, next) {
   activityService
     .getById(req.params.id)
     .then((activity) => res.json(activity))
     .catch(next);
 }
 
-function update(req, res, next) {
+export function update(req, res, next) {
   activityService
     .update(req.params.id, req.body)
     .then((activity) => res.json(activity))
     .catch(next);
 }
 
-function _delete(req, res, next) {
+export function _delete(req, res, next) {
   activityService
-    .delete(req.params.id)
+    ._delete(req.params.id)
     .then(() => res.json({ message: "Activity deleted successfully" }))
     .catch(next);
 }

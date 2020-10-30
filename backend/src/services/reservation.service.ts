@@ -1,25 +1,17 @@
 import { db } from "../db/index";
 
-module.exports = {
-  getAll,
-  getAllByUser,
-  getById,
-  create,
-  update,
-  delete: _delete,
-};
-
-async function getAll() {
+export async function getAll() {
   return await db.Reservation.findAll({
     include: [
       { model: db.Location, as: "location" },
       { model: db.Activity, as: "activity" },
     ],
+    // @ts-ignore - bad typings
     exclude: ["activityId"],
   });
 }
 
-async function getAllByUser(user) {
+export async function getAllByUser(user) {
   const { id } = user;
   return await db.Reservation.findAll({
     where: { userId: id },
@@ -30,15 +22,15 @@ async function getAllByUser(user) {
   });
 }
 
-async function getById(id) {
+export async function getById(id) {
   return await getReservation(id);
 }
 
-async function create(params) {
+export async function create(params) {
   return await db.Reservation.create(params);
 }
 
-async function update(id, params) {
+export async function update(id, params) {
   const reservation = await getReservation(id);
 
   Object.assign(reservation, params);
@@ -47,7 +39,7 @@ async function update(id, params) {
   return reservation.get();
 }
 
-async function _delete(id) {
+export async function _delete(id) {
   const reservation = await getReservation(id);
   await reservation.destroy();
 }

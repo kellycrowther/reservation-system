@@ -1,18 +1,9 @@
 import { config } from "../config";
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcryptjs");
+import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs";
 import { db } from "../db/index";
 
-module.exports = {
-  authenticate,
-  getAll,
-  getById,
-  create,
-  update,
-  delete: _delete,
-};
-
-async function authenticate({ username, password }) {
+export async function authenticate({ username, password }) {
   const user = await db.User.scope("withHash").findOne({ where: { username } });
   const { secret } = config;
 
@@ -28,15 +19,15 @@ async function authenticate({ username, password }) {
   };
 }
 
-async function getAll() {
+export async function getAll() {
   return await db.User.findAll();
 }
 
-async function getById(id) {
+export async function getById(id) {
   return await getUser(id);
 }
 
-async function create(params) {
+export async function create(params) {
   if (await db.User.findOne({ where: { username: params.username } })) {
     throw `Username ${params.username} already taken`;
   }
@@ -49,7 +40,7 @@ async function create(params) {
   return await db.User.create(params);
 }
 
-async function update(id, params) {
+export async function update(id, params) {
   const user = await getUser(id);
 
   const usernameChanged = params.username && user.username !== params.username;
@@ -70,7 +61,7 @@ async function update(id, params) {
   return omitHash(user.get());
 }
 
-async function _delete(id) {
+export async function _delete(id) {
   const user = await getUser(id);
   await user.destroy();
 }
