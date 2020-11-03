@@ -101,7 +101,14 @@ function makeDb(sequelize): IDatabase {
     as: "standard",
   });
   ScheduleStandard.belongsTo(Schedule, { foreignKey: "scheduleId" });
+
+  Schedule.hasMany(ScheduleException, {
+    foreignKey: "scheduleId",
+    as: "exception",
+  });
   ScheduleException.belongsTo(Schedule, { foreignKey: "scheduleId" });
+
+  // schedule weekdays
   ScheduleStandard.hasMany(ScheduleWeekdays, {
     foreignKey: "scheduleStandardId",
     as: "weekdays",
@@ -109,15 +116,25 @@ function makeDb(sequelize): IDatabase {
   ScheduleWeekdays.belongsTo(ScheduleStandard, {
     foreignKey: "scheduleStandardId",
   });
+  ScheduleException.hasMany(ScheduleWeekdays, {
+    foreignKey: "scheduleExceptionId",
+    as: "weekdays",
+  });
   ScheduleWeekdays.belongsTo(ScheduleException, {
     foreignKey: "scheduleExceptionId",
   });
+
+  // schedule hours
   ScheduleStandard.hasMany(ScheduleHours, {
     foreignKey: "scheduleStandardId",
     as: "hours",
   });
   ScheduleHours.belongsTo(ScheduleStandard, {
     foreignKey: "scheduleStandardId",
+  });
+  ScheduleException.hasMany(ScheduleHours, {
+    foreignKey: "scheduleExceptionId",
+    as: "hours",
   });
   ScheduleHours.belongsTo(ScheduleException, {
     foreignKey: "scheduleExceptionId",

@@ -112,6 +112,20 @@ async function createInclude() {
             },
           ],
         },
+        {
+          model: db.ScheduleException,
+          as: "exception",
+          include: [
+            {
+              model: db.ScheduleWeekdays,
+              as: "weekdays",
+            },
+            {
+              model: db.ScheduleHours,
+              as: "hours",
+            },
+          ],
+        },
       ],
     },
   ];

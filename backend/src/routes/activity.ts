@@ -50,8 +50,8 @@ function createActivitySchema(req, res, next) {
           day: Joi.string().required(),
         }),
         hours: Joi.array().items({
-          hour: Joi.string().required(),
-          minutes: Joi.string().required(),
+          hour: Joi.number().required(),
+          minutes: Joi.number().required(),
         }),
       }),
     }),
