@@ -2,13 +2,22 @@ import { db } from "../db/index";
 
 export async function getAll() {
   return await db.Activity.findAll({
-    include: [{ model: db.Location, as: "locations" }],
+    include: [
+      { model: db.Location, as: "locations" },
+      { model: db.Schedule, as: "schedules" },
+    ],
   });
 }
 
 export async function getAllByUser(user) {
   const { id } = user;
-  return await db.Activity.findAll({ where: { userId: id } });
+  return await db.Activity.findAll({
+    where: { userId: id },
+    include: [
+      { model: db.Location, as: "locations" },
+      { model: db.Schedule, as: "schedules" },
+    ],
+  });
 }
 
 export async function getById(id) {
@@ -16,7 +25,7 @@ export async function getById(id) {
 }
 
 export async function create(params) {
-  await db.Activity.create(params);
+  return await db.Activity.create(params);
 }
 
 export async function update(id, params) {
@@ -35,7 +44,12 @@ export async function _delete(id) {
 
 // helpers
 async function getActivity(id) {
-  const activity = await db.Activity.findByPk(id);
+  const activity = await db.Activity.findByPk(id, {
+    include: [
+      { model: db.Location, as: "locations" },
+      { model: db.Schedule, as: "schedules" },
+    ],
+  });
   if (!activity) {
     throw "Activity not found";
   }

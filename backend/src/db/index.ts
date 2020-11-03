@@ -6,10 +6,17 @@ import { model as reservationModel } from "../models/reservation.model";
 import { model as locationModel } from "../models/location.model";
 import { model as activityModel } from "../models/activity.model";
 import { model as activityLocationJoinModel } from "../models/activity.model";
+import { model as scheduleModel } from "../models/schedule.model";
+import { model as scheduleJoinModel } from "../models/schedule.join.model";
+import { model as scheduleStandardModel } from "../models/schedule-standard.model";
+import { model as scheduleExceptionModel } from "../models/schedule-exception.model";
+import { model as scheduleWeekdaysModel } from "../models/schedule-weekdays.model";
+import { model as scheduleHoursModel } from "../models/schedule-hours.model";
 import { UserModelStatic } from "../interfaces/user.interface";
 import { ReservationModelStatic } from "../interfaces/reservation.interface";
 import { LocationModelStatic } from "../interfaces/location.interface";
 import { ActivityModelStatic } from "../interfaces/activity.interface";
+import { ScheduleModelStatic } from "../interfaces/schedule.interface";
 
 export { db };
 
@@ -18,6 +25,7 @@ interface IDatabase {
   Activity: ActivityModelStatic;
   Reservation: ReservationModelStatic;
   Location: LocationModelStatic;
+  Schedule: ScheduleModelStatic;
 }
 
 let db: IDatabase = <IDatabase>{};
@@ -54,6 +62,12 @@ function makeDb(sequelize): IDatabase {
   const Location = locationModel(sequelize);
   const Activity = activityModel(sequelize);
   const ActivityLocationJoin = activityLocationJoinModel(sequelize);
+  const Schedule = scheduleModel(sequelize);
+  const ScheduleJoin = scheduleJoinModel(sequelize);
+  const ScheduleStandard = scheduleStandardModel(sequelize);
+  const ScheduleException = scheduleExceptionModel(sequelize);
+  const ScheduleWeekdays = scheduleWeekdaysModel(sequelize);
+  const ScheduleHours = scheduleHoursModel(sequelize);
 
   // define relationships
   Reservation.belongsTo(User, { foreignKey: "userId" });
@@ -70,10 +84,32 @@ function makeDb(sequelize): IDatabase {
     as: "locations",
   });
 
+  // schedule relationships
+  Activity.hasMany(Schedule, {
+    foreignKey: "activityId",
+    as: "schedules",
+  });
+  Schedule.belongsTo(Activity, { foreignKey: "activityId" });
+  ScheduleStandard.belongsTo(Schedule, { foreignKey: "scheduleId" });
+  ScheduleException.belongsTo(Schedule, { foreignKey: "scheduleId" });
+  ScheduleWeekdays.belongsTo(ScheduleStandard, {
+    foreignKey: "scheduleStandardId",
+  });
+  ScheduleWeekdays.belongsTo(ScheduleException, {
+    foreignKey: "scheduleExceptionId",
+  });
+  ScheduleHours.belongsTo(ScheduleStandard, {
+    foreignKey: "scheduleStandardId",
+  });
+  ScheduleHours.belongsTo(ScheduleException, {
+    foreignKey: "scheduleExceptionId",
+  });
+
   // add to db
   db.User = User;
   db.Reservation = Reservation;
   db.Location = Location;
   db.Activity = Activity;
+  db.Schedule = Schedule;
   return db;
 }

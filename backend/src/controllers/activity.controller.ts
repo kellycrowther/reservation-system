@@ -3,7 +3,7 @@ import * as activityService from "../services/activity.service";
 export function create(req, res, next) {
   activityService
     .create(req.body)
-    .then(() => res.json({ message: "Create activity successful" }))
+    .then((activity) => res.json(activity))
     .catch(next);
 }
 
