@@ -49,14 +49,6 @@ export type ScheduleWeekdayModelStatic = typeof Model & {
   new (values?: object, options?: BuildOptions): ScheduleWeekdayAttributes;
 };
 
-export interface ScheduleJoinAttributes extends Model {
-  id: string;
-}
-
-export type ScheduleJoinModelStatic = typeof Model & {
-  new (values?: object, options?: BuildOptions): ScheduleJoinAttributes;
-};
-
 export interface ScheduleExceptionAttributes extends Model {
   id: string;
   type: string;

@@ -10,9 +10,6 @@ function model(sequelize) {
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
-    type: {
-      type: DataTypes.TEXT,
-    },
     name: {
       type: DataTypes.TEXT,
     },

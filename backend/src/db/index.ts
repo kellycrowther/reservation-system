@@ -7,7 +7,6 @@ import { model as locationModel } from "../models/location.model";
 import { model as activityModel } from "../models/activity.model";
 import { model as activityLocationJoinModel } from "../models/activity.model";
 import { model as scheduleModel } from "../models/schedule.model";
-import { model as scheduleJoinModel } from "../models/schedule.join.model";
 import { model as scheduleStandardModel } from "../models/schedule-standard.model";
 import { model as scheduleExceptionModel } from "../models/schedule-exception.model";
 import { model as scheduleWeekdaysModel } from "../models/schedule-weekdays.model";
@@ -16,7 +15,13 @@ import { UserModelStatic } from "../interfaces/user.interface";
 import { ReservationModelStatic } from "../interfaces/reservation.interface";
 import { LocationModelStatic } from "../interfaces/location.interface";
 import { ActivityModelStatic } from "../interfaces/activity.interface";
-import { ScheduleModelStatic } from "../interfaces/schedule.interface";
+import {
+  ScheduleExceptionModelStatic,
+  ScheduleHourModelStatic,
+  ScheduleModelStatic,
+  ScheduleStandardModelStatic,
+  ScheduleWeekdayModelStatic,
+} from "../interfaces/schedule.interface";
 
 export { db };
 
@@ -26,6 +31,10 @@ interface IDatabase {
   Reservation: ReservationModelStatic;
   Location: LocationModelStatic;
   Schedule: ScheduleModelStatic;
+  ScheduleStandard: ScheduleStandardModelStatic;
+  ScheduleException: ScheduleExceptionModelStatic;
+  ScheduleWeekdays: ScheduleWeekdayModelStatic;
+  ScheduleHours: ScheduleHourModelStatic;
 }
 
 let db: IDatabase = <IDatabase>{};
@@ -63,7 +72,6 @@ function makeDb(sequelize): IDatabase {
   const Activity = activityModel(sequelize);
   const ActivityLocationJoin = activityLocationJoinModel(sequelize);
   const Schedule = scheduleModel(sequelize);
-  const ScheduleJoin = scheduleJoinModel(sequelize);
   const ScheduleStandard = scheduleStandardModel(sequelize);
   const ScheduleException = scheduleExceptionModel(sequelize);
   const ScheduleWeekdays = scheduleWeekdaysModel(sequelize);
@@ -85,18 +93,28 @@ function makeDb(sequelize): IDatabase {
   });
 
   // schedule relationships
-  Activity.hasMany(Schedule, {
-    foreignKey: "activityId",
-    as: "schedules",
-  });
+  Activity.hasOne(Schedule, { foreignKey: "activityId", as: "schedule" });
   Schedule.belongsTo(Activity, { foreignKey: "activityId" });
+
+  Schedule.hasMany(ScheduleStandard, {
+    foreignKey: "scheduleId",
+    as: "standard",
+  });
   ScheduleStandard.belongsTo(Schedule, { foreignKey: "scheduleId" });
   ScheduleException.belongsTo(Schedule, { foreignKey: "scheduleId" });
+  ScheduleStandard.hasMany(ScheduleWeekdays, {
+    foreignKey: "scheduleStandardId",
+    as: "weekdays",
+  });
   ScheduleWeekdays.belongsTo(ScheduleStandard, {
     foreignKey: "scheduleStandardId",
   });
   ScheduleWeekdays.belongsTo(ScheduleException, {
     foreignKey: "scheduleExceptionId",
+  });
+  ScheduleStandard.hasMany(ScheduleHours, {
+    foreignKey: "scheduleStandardId",
+    as: "hours",
   });
   ScheduleHours.belongsTo(ScheduleStandard, {
     foreignKey: "scheduleStandardId",
@@ -111,5 +129,9 @@ function makeDb(sequelize): IDatabase {
   db.Location = Location;
   db.Activity = Activity;
   db.Schedule = Schedule;
+  db.ScheduleStandard = ScheduleStandard;
+  db.ScheduleException = ScheduleException;
+  db.ScheduleWeekdays = ScheduleWeekdays;
+  db.ScheduleHours = ScheduleHours;
   return db;
 }

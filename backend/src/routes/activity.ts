@@ -25,6 +25,36 @@ module.exports = router;
 function createActivitySchema(req, res, next) {
   const schema = Joi.object({
     name: Joi.string().required(),
+    schedule: Joi.object({
+      standard: Joi.array()
+        .items({
+          name: Joi.string().required(),
+          description: Joi.string(),
+          startTime: Joi.string().required(),
+          endTime: Joi.string().required(),
+          weekdays: Joi.array().items({
+            day: Joi.string().required(),
+          }),
+          hours: Joi.array().items({
+            hour: Joi.number().required(),
+            minutes: Joi.number().required(),
+          }),
+        })
+        .required(),
+      exception: Joi.array().items({
+        name: Joi.string().required(),
+        description: Joi.string(),
+        startTime: Joi.string().required(),
+        endTime: Joi.string().required(),
+        weekdays: Joi.array().items({
+          day: Joi.string().required(),
+        }),
+        hours: Joi.array().items({
+          hour: Joi.string().required(),
+          minutes: Joi.string().required(),
+        }),
+      }),
+    }),
   });
   validateRequest(req, next, schema);
 }
