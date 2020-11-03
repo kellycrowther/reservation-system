@@ -1,5 +1,20 @@
 import { Model, BuildOptions } from "sequelize";
 
+export interface Schedule {
+  standard: Array<ScheduleDetails>;
+  exception: Array<ScheduleDetails>;
+}
+
+export interface ScheduleDetails {
+  id: string;
+  name: string;
+  description: string;
+  startTime: string;
+  endTime: string;
+  weekdays: Array<ScheduleWeekdays>;
+  hours: Array<ScheduleHours>;
+}
+
 export interface ScheduleAttributes extends Model {
   id: string;
   standardScheduleId: string;
@@ -10,14 +25,25 @@ export type ScheduleModelStatic = typeof Model & {
   new (values?: object, options?: BuildOptions): ScheduleAttributes;
 };
 
+export interface ScheduleWeekdays {
+  id: string;
+  day: string;
+  scheduleStandardId: string;
+  updatedAt: string;
+  createdAt: string;
+}
+
 export interface ScheduleHours {
+  id: string;
   hours: string;
   minutes: string;
+  scheduleStandardId: string;
+  updatedAt: string;
+  createdAt: string;
 }
 
 export interface ScheduleStandardAttributes extends Model {
   id: string;
-  type: string;
   name: string;
   description: string;
   startTime: string;

@@ -1,4 +1,5 @@
 import { Model, BuildOptions } from "sequelize";
+import { Schedule } from "./schedule.interface";
 
 export interface ActivityAttributes extends Model {
   id: string;
@@ -12,3 +13,8 @@ export interface ActivityAttributes extends Model {
 export type ActivityModelStatic = typeof Model & {
   new (values?: object, options?: BuildOptions): ActivityAttributes;
 };
+
+export interface CreateActivityParams {
+  name: string;
+  schedule: Schedule;
+}

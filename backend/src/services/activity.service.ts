@@ -1,4 +1,5 @@
 import { db } from "../db/index";
+import { CreateActivityParams } from "../interfaces/activity.interface";
 
 export async function getAll() {
   const include = await createInclude();
@@ -16,11 +17,11 @@ export async function getAllByUser(user) {
   });
 }
 
-export async function getById(id) {
+export async function getById(id: string) {
   return await getActivity(id);
 }
 
-export async function create(params) {
+export async function create(params: CreateActivityParams) {
   const { schedule } = params;
   const include = await createInclude();
 
@@ -65,7 +66,7 @@ export async function create(params) {
   return activity.get();
 }
 
-export async function update(id, params) {
+export async function update(id: string, params: CreateActivityParams) {
   const activity = await getActivity(id);
 
   Object.assign(activity, params);
@@ -74,13 +75,13 @@ export async function update(id, params) {
   return activity.get();
 }
 
-export async function _delete(id) {
+export async function _delete(id: string) {
   const activity = await getActivity(id);
   await activity.destroy();
 }
 
 // helpers
-async function getActivity(id) {
+async function getActivity(id: string) {
   const include = await createInclude();
   const activity = await db.Activity.findByPk(id, {
     include,
