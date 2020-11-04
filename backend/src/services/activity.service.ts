@@ -1,5 +1,6 @@
 import { db } from "../db/index";
 import { CreateActivityParams } from "../interfaces/activity.interface";
+import { createSchedule } from "./schedule.service";
 
 export async function getAll() {
   const include = await createInclude();
@@ -29,39 +30,7 @@ export async function create(params: CreateActivityParams) {
     include,
   });
 
-  schedule.standard.forEach(async (sched) => {
-    const scheduleParams = {
-      ...sched,
-      activityId: activity.id,
-    };
-    const schedule = await db.Schedule.create(scheduleParams);
-
-    const standardScheduleParams = {
-      ...sched,
-      scheduleId: schedule.id,
-    };
-
-    const scheduleStandardId = await db.ScheduleStandard.create(
-      standardScheduleParams
-    );
-
-    const hours = sched.hours.map((scheduleHours) => {
-      return {
-        ...scheduleHours,
-        scheduleStandardId: scheduleStandardId.id,
-      };
-    });
-
-    const weekdays = sched.hours.map((scheduleWeekdays) => {
-      return {
-        ...scheduleWeekdays,
-        scheduleStandardId: scheduleStandardId.id,
-      };
-    });
-
-    await db.ScheduleHours.bulkCreate(hours);
-    await db.ScheduleWeekdays.bulkCreate(weekdays);
-  });
+  createSchedule(schedule, activity.id);
 
   return activity.get();
 }

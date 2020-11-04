@@ -11,7 +11,6 @@
 - relate one activity to many reservation
 - activity should return available dates (range of beginning and end dates)
 - schedule update validation and service
-- refactor activity create schedule to use helper method in schedule
 - add update schedule to activity udpate
 - add a get calendar route - get by activity and all activities
 
