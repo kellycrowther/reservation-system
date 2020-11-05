@@ -1,6 +1,7 @@
 import { Model, BuildOptions } from "sequelize";
 
 export interface Schedule {
+  id: string;
   standard: Array<ScheduleDetails>;
   exception: Array<ScheduleDetails>;
 }

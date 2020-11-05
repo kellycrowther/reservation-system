@@ -1,6 +1,6 @@
 import { db } from "../db/index";
 import { CreateActivityParams } from "../interfaces/activity.interface";
-import { createSchedule } from "./schedule.service";
+import { createSchedule, updateSchedule } from "./schedule.service";
 
 export async function getAll() {
   const include = await createInclude();
@@ -30,7 +30,7 @@ export async function create(params: CreateActivityParams) {
     include,
   });
 
-  createSchedule(schedule, activity.id);
+  await createSchedule(schedule, activity.id);
 
   return activity.get();
 }
@@ -41,7 +41,11 @@ export async function update(id: string, params: CreateActivityParams) {
   Object.assign(activity, params);
   await activity.save();
 
-  return activity.get();
+  if (params.schedule) {
+    await updateSchedule(params.schedule.id, params.schedule);
+  }
+
+  return activity.reload();
 }
 
 export async function _delete(id: string) {
