@@ -14,6 +14,13 @@ function model(sequelize) {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    quantity: {
+      type: DataTypes.INTEGER,
+      isInt: true,
+    },
+    startTime: {
+      type: DataTypes.STRING,
+    },
   };
 
   const options = {

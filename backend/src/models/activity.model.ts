@@ -1,4 +1,4 @@
-import { DataTypes } from "sequelize";
+import { AttributeType, DataTypes } from "sequelize";
 import { ActivityModelStatic } from "../interfaces/activity.interface";
 
 export { model };
@@ -13,6 +13,16 @@ function model(sequelize) {
     name: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    description: {
+      type: DataTypes.TEXT,
+    },
+    pictureUrl: {
+      type: DataTypes.STRING,
+    },
+    capacity: {
+      type: DataTypes.INTEGER,
+      isInt: true,
     },
   };
 
