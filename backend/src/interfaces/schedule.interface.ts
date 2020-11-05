@@ -13,12 +13,15 @@ export interface ScheduleDetails {
   endTime: string;
   weekdays: Array<ScheduleWeekdays>;
   hours: Array<ScheduleHours>;
+  _destroy: boolean;
 }
 
 export interface ScheduleAttributes extends Model {
   id: string;
   standardScheduleId: string;
   exceptionScheduleId: string;
+  standard: ScheduleDetails[];
+  exception: ScheduleDetails[];
 }
 
 export type ScheduleModelStatic = typeof Model & {
@@ -31,6 +34,7 @@ export interface ScheduleWeekdays {
   scheduleStandardId: string;
   updatedAt: string;
   createdAt: string;
+  _destroy: boolean;
 }
 
 export interface ScheduleHours {
@@ -40,6 +44,7 @@ export interface ScheduleHours {
   scheduleStandardId: string;
   updatedAt: string;
   createdAt: string;
+  _destroy: boolean;
 }
 
 export interface ScheduleStandardAttributes extends Model {
