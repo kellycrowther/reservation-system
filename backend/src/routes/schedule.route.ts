@@ -57,3 +57,39 @@ function createScheduleSchema(req, res, next) {
   });
   validateRequest(req, next, schema);
 }
+
+function updateScheduleSchema(req, res, next) {
+  const schema = Joi.object({
+    schedule: Joi.object({
+      standard: Joi.array()
+        .items({
+          name: Joi.string().empty(""),
+          description: Joi.string().empty(""),
+          startTime: Joi.string().empty(""),
+          endTime: Joi.string().empty(""),
+          weekdays: Joi.array().items({
+            day: Joi.string().empty(""),
+          }),
+          hours: Joi.array().items({
+            hour: Joi.number().empty(""),
+            minutes: Joi.number().empty(""),
+          }),
+        })
+        .required(),
+      exception: Joi.array().items({
+        name: Joi.string().empty(""),
+        description: Joi.string().empty(""),
+        startTime: Joi.string().empty(""),
+        endTime: Joi.string().empty(""),
+        weekdays: Joi.array().items({
+          day: Joi.string().empty(""),
+        }),
+        hours: Joi.array().items({
+          hour: Joi.number().empty(""),
+          minutes: Joi.number().empty(""),
+        }),
+      }),
+    }),
+  });
+  validateRequest(req, next, schema);
+}
