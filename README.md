@@ -11,6 +11,7 @@
 - add transactions: https://sequelize.org/master/manual/transactions.html
 - figure out migrations
 - add authorization to routes
+- make it query by organization by default
 
 ## Plans
 
