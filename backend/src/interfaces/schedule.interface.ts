@@ -31,7 +31,7 @@ export type ScheduleModelStatic = typeof Model & {
 
 export interface ScheduleWeekdays {
   id: string;
-  day: string;
+  day: number;
   scheduleStandardId: string;
   updatedAt: string;
   createdAt: string;
@@ -40,8 +40,8 @@ export interface ScheduleWeekdays {
 
 export interface ScheduleHours {
   id: string;
-  hours: string;
-  minutes: string;
+  hour: number;
+  minutes: number;
   scheduleStandardId: string;
   updatedAt: string;
   createdAt: string;
@@ -74,7 +74,7 @@ export type ScheduleHourModelStatic = typeof Model & {
 
 export interface ScheduleWeekdayAttributes extends Model {
   id: string;
-  day: string;
+  day: number;
 }
 
 export type ScheduleWeekdayModelStatic = typeof Model & {
@@ -95,3 +95,7 @@ export interface ScheduleExceptionAttributes extends Model {
 export type ScheduleExceptionModelStatic = typeof Model & {
   new (values?: object, options?: BuildOptions): ScheduleExceptionAttributes;
 };
+
+export interface GeneratedSchedule {
+  date: string;
+}

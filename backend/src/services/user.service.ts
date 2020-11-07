@@ -1,6 +1,6 @@
 import { config } from "../config";
 import jwt from "jsonwebtoken";
-import bcrypt from "bcryptjs";
+import * as bcrypt from "bcryptjs";
 import { db } from "../db/index";
 
 export async function authenticate({ username, password }) {

@@ -39,13 +39,13 @@ export async function update(id, params) {
   return reservation.get();
 }
 
-export async function _delete(id) {
+export async function _delete(id: string) {
   const reservation = await getReservation(id);
   await reservation.destroy();
 }
 
 // helpers
-async function getReservation(id) {
+async function getReservation(id: string) {
   const reservation = await db.Reservation.findByPk(id, {
     include: [
       { model: db.Location, as: "location" },
@@ -56,4 +56,13 @@ async function getReservation(id) {
     throw "Reservation not found";
   }
   return reservation;
+}
+
+export async function getReservationsByActivity(activityId: string) {
+  const reservations = await db.Reservation.findAll({
+    where: {
+      activityId,
+    },
+  });
+  return reservations;
 }

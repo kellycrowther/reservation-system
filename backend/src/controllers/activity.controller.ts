@@ -41,3 +41,10 @@ export function _delete(req, res, next) {
     .then(() => res.json({ message: "Activity deleted successfully" }))
     .catch(next);
 }
+
+export function getCalendar(req, res, next) {
+  activityService
+    .getCalendar(req.params.id)
+    .then((calendar) => res.json(calendar))
+    .catch(next);
+}

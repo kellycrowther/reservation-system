@@ -11,7 +11,7 @@ function model(sequelize) {
       primaryKey: true,
     },
     day: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
     },
   };
 

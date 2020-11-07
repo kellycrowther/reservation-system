@@ -10,6 +10,7 @@ import {
   create,
   _delete,
   getAllByUser,
+  getCalendar,
 } from "../controllers/activity.controller";
 import { authorize } from "../_middleware/authorize";
 
@@ -19,6 +20,7 @@ router.get("/:id", getById);
 router.post("/", createActivitySchema, create);
 router.put("/:id", updateActivitySchema, update);
 router.delete("/:id", _delete);
+router.get("/:id/calendar", getCalendar);
 
 module.exports = router;
 
@@ -33,7 +35,7 @@ function createActivitySchema(req, res, next) {
           startTime: Joi.string().required(),
           endTime: Joi.string().required(),
           weekdays: Joi.array().items({
-            day: Joi.string().required(),
+            day: Joi.number().required(),
           }),
           hours: Joi.array().items({
             hour: Joi.number().required(),
@@ -47,7 +49,7 @@ function createActivitySchema(req, res, next) {
         startTime: Joi.string().required(),
         endTime: Joi.string().required(),
         weekdays: Joi.array().items({
-          day: Joi.string().required(),
+          day: Joi.number().required(),
         }),
         hours: Joi.array().items({
           hour: Joi.number().required(),
