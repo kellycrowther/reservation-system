@@ -10,6 +10,7 @@
 - add a get calendar route - get by activity and all activities
 - add transactions: https://sequelize.org/master/manual/transactions.html
 - figure out migrations
+- add authorization to routes
 
 ## Plans
 
