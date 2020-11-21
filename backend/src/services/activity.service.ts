@@ -74,20 +74,15 @@ export async function getCalendar(id) {
   // create schedules
   const standardSchedule = generateSchedules(activity.schedule.standard);
   const exceptionSchedule = generateSchedules(activity.schedule.exception);
-  // console.info("CALENDAR DAYS: ", calendarDays);
-  console.info("STANDARD SCHEDULE: ", standardSchedule);
-  console.info("EXCEPTION STANDARD: ", exceptionSchedule);
-  console.info("RESERVATIONS: ", reservations);
+
+  // search calendar for standard schedule, exception schedule, and reservation capacity then set dayIsActive
   for (const day of calendarDays) {
-    const standardDayIsActive = standardSchedule.find((standardDay) => {
-      console.info("STANDARD DAY: ", moment(standardDay.date));
-      console.info("SCHEDULE DAY: ", moment(day.date));
-      if (moment(standardDay.date).isSame(moment(day.date))) {
-        return standardDay;
-      }
-    });
+    const standardDayIsActive = standardSchedule.find((standardDay) =>
+      moment(standardDay.date).isSame(moment(day.date), "day")
+    );
+
     const exceptionDayIsActive = exceptionSchedule.find((exceptionDay) =>
-      moment(exceptionDay.date).isSame(moment(day.date))
+      moment(exceptionDay.date).isSame(moment(day.date), "day")
     );
     const reservationsQuantity = reservations.reduce(
       (accumulator, reservation) => {
@@ -98,16 +93,16 @@ export async function getCalendar(id) {
       },
       0
     );
+    // TODO: cannot be active if date is in the past
     const dayIsActive = !!(
       reservationsQuantity < activity.capacity &&
       standardDayIsActive &&
-      exceptionDayIsActive
+      !exceptionDayIsActive
     );
-    console.info("STANDARD DAY IS ACTIVE: ", standardDayIsActive);
-    console.info("EXCEPTION DAY IS ACTIVE: ", exceptionDayIsActive);
-    console.info("DAY IS ACTIVE: ", dayIsActive);
+
     day.isActive = dayIsActive;
   }
+  return calendarDays;
 }
 
 // helpers
@@ -140,9 +135,11 @@ function generateSchedules(schedules: ScheduleDetails[]): GeneratedSchedule[] {
   schedules.forEach((schedule) => {
     const startTime = moment(schedule.startTime).clone();
     const endTime = moment(schedule.endTime).clone();
+    // while start time is before the end time
     while (startTime.isSameOrBefore(endTime)) {
-      // console.info("START TIME: ", startTime.toISOString());
+      // create the day
       for (const weekday of schedule.weekdays) {
+        // create the hour
         for (const hour of schedule.hours) {
           if (startTime.day() === weekday.day) {
             calendar.push({
