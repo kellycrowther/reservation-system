@@ -11,6 +11,7 @@ import {
 import "./App.css";
 import { ActivitiesList } from "./components/Activities/ActivitiesList";
 import { ThemeSwitcher } from "./components/ThemeSwitcher/ThemeSwitcher";
+import { Home } from "./components/Home/Home";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -68,6 +69,9 @@ function App() {
           </Header>
           <Content style={{ margin: "24px 16px 0", overflow: "initial" }}>
             <Switch>
+              <Route exact path="/">
+                <Home />
+              </Route>
               <Route exact path="/activities">
                 <ActivitiesList />
               </Route>
