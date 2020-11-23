@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { Layout, Menu, Row, Col, Button } from "antd";
+import { Layout, Menu, Row, Col } from "antd";
 import {
-  BgColorsOutlined,
   DeploymentUnitOutlined,
   UserOutlined,
   TrophyOutlined,
@@ -15,7 +14,6 @@ const { Header, Content, Footer, Sider } = Layout;
 
 function App() {
   const [collapsed, setCollapsed] = useState(false);
-  const [themeSwitchOpen, setThemeSwitchOpen] = useState(false);
 
   return (
     <div className="App">
@@ -54,18 +52,7 @@ function App() {
           <Header className="site-layout-background" style={{ padding: 0 }}>
             <Row>
               <Col offset={12} span={12} style={{ textAlign: "right" }}>
-                {/* TODO: remove hardcoded color */}
-                <Button
-                  type="link"
-                  style={{ color: "#ffffffa6", marginRight: "10px" }}
-                  icon={<BgColorsOutlined />}
-                  onClick={() => {
-                    const open = themeSwitchOpen;
-                    setThemeSwitchOpen(!open);
-                  }}
-                >
-                  <ThemeSwitcher open={themeSwitchOpen} />
-                </Button>
+                <ThemeSwitcher />
               </Col>
             </Row>
           </Header>

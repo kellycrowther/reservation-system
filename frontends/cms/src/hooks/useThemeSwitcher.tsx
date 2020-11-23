@@ -5,7 +5,7 @@ import "../styles/main.less";
 
 import { message } from "antd";
 
-type Themes = "DARK" | "LIGHT";
+export type Themes = "DARK" | "LIGHT";
 
 declare global {
   interface Window {
@@ -13,7 +13,7 @@ declare global {
   }
 }
 
-function selectTheme(selectedTheme: Themes) {
+function selectTheme(selectedTheme: Themes | string) {
   let theme;
   switch (selectedTheme) {
     case "LIGHT":
@@ -33,7 +33,7 @@ export const useThemeSwitcher = (selectedTheme: Themes) => {
   const [themeApplied, setThemeApplied] = useState(false);
   const [error, setError] = useState(null);
 
-  function change(selectedTheme: Themes) {
+  function change(selectedTheme: Themes | string) {
     let vars: any = selectTheme(selectedTheme);
     window.less
       .modifyVars(vars)

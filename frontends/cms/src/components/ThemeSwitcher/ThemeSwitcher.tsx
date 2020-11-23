@@ -1,23 +1,26 @@
 import React from "react";
 import { useThemeSwitcher } from "../../hooks/useThemeSwitcher";
-import { Select } from "antd";
+import { Dropdown, Button, Menu } from "antd";
+import { BgColorsOutlined } from "@ant-design/icons";
 
-const { Option } = Select;
-
-export const ThemeSwitcher = ({ open }: { open: boolean }) => {
+export const ThemeSwitcher = () => {
   const { change } = useThemeSwitcher("LIGHT");
 
-  console.info("OPEN: ", open);
+  const menu = (
+    <Menu>
+      <Menu.Item onClick={() => change("LIGHT")}>Light</Menu.Item>
+      <Menu.Item onClick={() => change("DARK")}>Dark</Menu.Item>
+    </Menu>
+  );
 
   return (
-    <Select
-      defaultValue="LIGHT"
-      style={{ width: 120 }}
-      onChange={(value) => change(value)}
-      open={open}
-    >
-      <Option value="LIGHT">Light</Option>
-      <Option value="DARK">Dark</Option>
-    </Select>
+    <Dropdown overlay={menu}>
+      {/* TODO: remove hardcoded color */}
+      <Button
+        type="link"
+        style={{ color: "#ffffffa6", marginRight: "10px" }}
+        icon={<BgColorsOutlined />}
+      ></Button>
+    </Dropdown>
   );
 };
