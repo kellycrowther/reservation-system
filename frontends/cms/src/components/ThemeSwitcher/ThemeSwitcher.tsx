@@ -15,12 +15,9 @@ export const ThemeSwitcher = () => {
 
   return (
     <Dropdown overlay={menu}>
-      {/* TODO: remove hardcoded color */}
-      <Button
-        type="link"
-        style={{ color: "#ffffffa6", marginRight: "10px" }}
-        icon={<BgColorsOutlined />}
-      ></Button>
+      <Menu theme="dark">
+        <Menu.Item icon={<BgColorsOutlined />}></Menu.Item>
+      </Menu>
     </Dropdown>
   );
 };

@@ -51,7 +51,7 @@ function App() {
         >
           <Header className="site-layout-background" style={{ padding: 0 }}>
             <Row>
-              <Col offset={12} span={12} style={{ textAlign: "right" }}>
+              <Col offset={23} span={1} style={{ textAlign: "right" }}>
                 <ThemeSwitcher />
               </Col>
             </Row>
