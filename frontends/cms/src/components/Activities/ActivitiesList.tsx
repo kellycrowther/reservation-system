@@ -1,51 +1,50 @@
 import React from "react";
-import { Table, Row, Col } from "antd";
+import { Table, Row, Col, Result, Button } from "antd";
+import { useFetchActivitiesList } from "../../hooks/useFetchActivitiesList";
 
 const Title = () => {
   return <h2>Activities</h2>;
 };
 
 export const ActivitiesList = () => {
-  const dataSource = [
-    {
-      key: "1",
-      name: "Mike",
-      age: 32,
-      address: "10 Downing Street",
-    },
-    {
-      key: "2",
-      name: "John",
-      age: 42,
-      address: "10 Downing Street",
-    },
-  ];
+  const { data, error, loading, execute } = useFetchActivitiesList();
 
   const columns = [
     {
       title: "Name",
       dataIndex: "name",
-      key: "name",
     },
     {
-      title: "Age",
-      dataIndex: "age",
-      key: "age",
+      title: "Description",
+      dataIndex: "description",
     },
     {
-      title: "Address",
-      dataIndex: "address",
-      key: "address",
+      title: "Capacity",
+      dataIndex: "capacity",
     },
   ];
   return (
     <Row>
       <Col offset={4} span={16}>
-        <Table
-          dataSource={dataSource}
-          columns={columns}
-          title={() => <Title />}
-        />
+        {error ? (
+          <Result
+            status="warning"
+            title="There was a problem fetching the activities. Please try refreshing the page."
+            extra={
+              <Button type="primary" key="console" onClick={() => execute()}>
+                Refresh Page
+              </Button>
+            }
+          />
+        ) : (
+          <Table
+            dataSource={data}
+            columns={columns}
+            loading={loading}
+            rowKey="id"
+            title={() => <Title />}
+          />
+        )}
       </Col>
     </Row>
   );

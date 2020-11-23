@@ -1,6 +1,6 @@
 import React from "react";
 import { useThemeSwitcher } from "../../hooks/useThemeSwitcher";
-import { Dropdown, Button, Menu } from "antd";
+import { Button, Dropdown, Menu } from "antd";
 import { BgColorsOutlined } from "@ant-design/icons";
 
 export const ThemeSwitcher = () => {
@@ -15,9 +15,11 @@ export const ThemeSwitcher = () => {
 
   return (
     <Dropdown overlay={menu}>
-      <Menu theme="dark">
-        <Menu.Item icon={<BgColorsOutlined />}></Menu.Item>
-      </Menu>
+      <Button
+        type="link"
+        style={{ color: "#ffffffa6", marginRight: "10px" }}
+        icon={<BgColorsOutlined />}
+      />
     </Dropdown>
   );
 };
