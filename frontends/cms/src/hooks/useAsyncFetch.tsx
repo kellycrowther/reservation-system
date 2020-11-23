@@ -1,7 +1,10 @@
 import { AxiosResponse } from "axios";
 import { useEffect, useState, useCallback } from "react";
 
-export function useAsync<T>(asyncFunction: () => Promise<AxiosResponse<T>>) {
+export function useAsync<T>(
+  asyncFunction: (params?: any) => Promise<AxiosResponse<T>>,
+  params?: any
+) {
   const [data, setData] = useState<T>();
   const [error, setError] = useState();
   const [loading, setLoading] = useState(false);
@@ -11,7 +14,7 @@ export function useAsync<T>(asyncFunction: () => Promise<AxiosResponse<T>>) {
     setData(undefined);
     setError(undefined);
     try {
-      const { data } = await asyncFunction();
+      const { data } = await asyncFunction(params);
       setData(data);
     } catch (err) {
       if (err.response) {
@@ -22,7 +25,7 @@ export function useAsync<T>(asyncFunction: () => Promise<AxiosResponse<T>>) {
     } finally {
       setLoading(false);
     }
-  }, [asyncFunction]);
+  }, [asyncFunction, params]);
 
   useEffect(() => {
     execute();
