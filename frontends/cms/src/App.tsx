@@ -1,6 +1,8 @@
 import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
+import { ActivitiesList } from "./components/Activities/ActivitiesList";
+import { ThemeSwitcher } from "./components/ThemeSwitcher/ThemeSwitcher";
 
 function App() {
   return (
@@ -19,6 +21,8 @@ function App() {
           Learn React
         </a>
       </header>
+      <ThemeSwitcher />
+      <ActivitiesList />
     </div>
   );
 }

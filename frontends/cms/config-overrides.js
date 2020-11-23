@@ -53,6 +53,8 @@ module.exports = override(
   }),
   addWebpackPlugin(new AntDesignThemePlugin(options)),
   addLessLoader({
-    javascriptEnabled: true,
+    lessOptions: {
+      javascriptEnabled: true,
+    },
   })
 );
