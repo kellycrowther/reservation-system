@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Switch, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Layout, Menu, Row, Col } from "antd";
 import {
   DeploymentUnitOutlined,
@@ -9,9 +9,8 @@ import {
   HomeOutlined,
 } from "@ant-design/icons";
 import "./App.css";
-import { ActivitiesList } from "./components/Activities/ActivitiesList";
 import { ThemeSwitcher } from "./components/ThemeSwitcher/ThemeSwitcher";
-import { Home } from "./components/Home/Home";
+import { RenderRoutes } from "./routes/routes";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -68,17 +67,7 @@ function App() {
             </Row>
           </Header>
           <Content style={{ margin: "24px 16px 0", overflow: "initial" }}>
-            <Switch>
-              <Route exact path="/">
-                <Home />
-              </Route>
-              <Route exact path="/activities">
-                <ActivitiesList />
-              </Route>
-              <Route path="*">
-                <h2>Route Not Found</h2>
-              </Route>
-            </Switch>
+            <RenderRoutes />
           </Content>
           <Footer style={{ textAlign: "center" }}>
             Ant Design ©2018 Created by Ant UED
