@@ -6,6 +6,7 @@ import { Checkbox } from "formik-antd";
 import { StyledField } from "../../shared-components/Field/StyledField";
 import { FieldError } from "../../shared-components/Field/FieldError";
 import { useFetchLocations } from "../../hooks/useLocation";
+import { Schedule } from "../../interfaces/Schedule";
 
 const { Title } = Typography;
 
@@ -15,7 +16,7 @@ interface InitialValues {
   pictureUrl: string;
   capacity: number;
   locations: number[];
-  schedule: any;
+  schedule: Schedule;
 }
 
 export const ActivityCreateUpdate = () => {
@@ -27,7 +28,7 @@ export const ActivityCreateUpdate = () => {
     pictureUrl: "",
     capacity: 0,
     locations: [],
-    schedule: {},
+    schedule: {} as Schedule,
   };
 
   const validationSchema = Yup.object({
@@ -59,48 +60,59 @@ export const ActivityCreateUpdate = () => {
         /* and other goodies like error */
       }) => (
         <Row align="middle" justify="start">
-          <Col xs={24} md={{ offset: 8, span: 8 }}>
+          <Col xs={24} md={{ offset: 4, span: 18 }}>
             <Title level={3} style={{ textAlign: "center" }}>
               Create Activity
             </Title>
             <form name="register" onSubmit={handleSubmit}>
-              <StyledField
-                name="name"
-                label="Name"
-                placeholder="Enter acitivity name"
-              />
+              <Row gutter={3}>
+                <Col span={6}>
+                  <StyledField
+                    name="name"
+                    label="Name"
+                    placeholder="Enter acitivity name"
+                  />
 
-              {errors.name && touched.name && (
-                <FieldError>{errors.name}</FieldError>
-              )}
+                  {errors.name && touched.name && (
+                    <FieldError>{errors.name}</FieldError>
+                  )}
+                </Col>
+                <Col span={8}>
+                  <StyledField
+                    name="description"
+                    label="Description"
+                    placeholder="Enter description"
+                  />
+                </Col>
+                <Col span={2}>
+                  <StyledField
+                    name="capacity"
+                    label="Capacity"
+                    type="number"
+                    placeholder="Enter capacity"
+                  />
 
-              <StyledField
-                name="description"
-                label="Description"
-                placeholder="Enter description"
-              />
+                  {errors.capacity && touched.capacity && (
+                    <FieldError>{errors.capacity}</FieldError>
+                  )}
+                </Col>
+                <Col span={6}>
+                  <div style={{ fontWeight: "bold", margin: "1em 0 .25em 0" }}>
+                    Locations
+                  </div>
+                  <Checkbox.Group
+                    name="locations"
+                    options={locations?.map((location) => {
+                      return {
+                        label: location.name,
+                        value: location.id,
+                      };
+                    })}
+                  />
+                </Col>
+              </Row>
 
-              <StyledField
-                name="capacity"
-                label="Capacity"
-                type="number"
-                placeholder="Enter capacity"
-              />
-
-              {errors.capacity && touched.capacity && (
-                <FieldError>{errors.capacity}</FieldError>
-              )}
-
-              <div style={{ fontWeight: "bold" }}>Locations</div>
-              <Checkbox.Group
-                name="locations"
-                options={locations?.map((location) => {
-                  return {
-                    label: location.name,
-                    value: location.id,
-                  };
-                })}
-              />
+              <div style={{ fontWeight: "bold" }}>Standard Schedule</div>
 
               <Form.Item>
                 <Button
