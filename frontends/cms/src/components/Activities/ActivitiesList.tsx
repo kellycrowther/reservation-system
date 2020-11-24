@@ -1,12 +1,15 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import { Table, Row, Col, Result, Button } from "antd";
 import { useFetchActivitiesList } from "../../hooks/useFetchActivitiesList";
+import "./ActivitiesList.css";
 
 const Title = () => {
   return <h2>Activities</h2>;
 };
 
 export const ActivitiesList = () => {
+  const history = useHistory();
   const { data, error, loading, execute } = useFetchActivitiesList();
 
   const columns = [
@@ -43,6 +46,12 @@ export const ActivitiesList = () => {
             loading={loading}
             rowKey="id"
             title={() => <Title />}
+            rowClassName="activity-row"
+            onRow={(record, rowIndex) => {
+              return {
+                onClick: (event) => history.push(`/activities/${record.id}`),
+              };
+            }}
           />
         )}
       </Col>
