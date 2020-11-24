@@ -1,15 +1,27 @@
 import React from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { Form, Button, Row, Col, Typography, Select } from "antd";
+import { Form, Button, Row, Col, Typography } from "antd";
+import { Checkbox } from "formik-antd";
 import { StyledField } from "../../shared-components/Field/StyledField";
 import { FieldError } from "../../shared-components/Field/FieldError";
+import { useFetchLocations } from "../../hooks/useLocation";
 
 const { Title } = Typography;
-const { Option } = Select;
+
+interface InitialValues {
+  name: string;
+  description: string;
+  pictureUrl: string;
+  capacity: number;
+  locations: number[];
+  schedule: any;
+}
 
 export const ActivityCreateUpdate = () => {
-  const initialValues = {
+  const { data: locations } = useFetchLocations();
+
+  const initialValues: InitialValues = {
     name: "",
     description: "",
     pictureUrl: "",
@@ -31,6 +43,7 @@ export const ActivityCreateUpdate = () => {
       validationSchema={validationSchema}
       validateOnChange
       onSubmit={(values, { setSubmitting }) => {
+        console.info("VALUES: ", values);
         // createUser(values);
       }}
     >
@@ -77,6 +90,17 @@ export const ActivityCreateUpdate = () => {
               {errors.capacity && touched.capacity && (
                 <FieldError>{errors.capacity}</FieldError>
               )}
+
+              <div style={{ fontWeight: "bold" }}>Locations</div>
+              <Checkbox.Group
+                name="locations"
+                options={locations?.map((location) => {
+                  return {
+                    label: location.name,
+                    value: location.id,
+                  };
+                })}
+              />
 
               <Form.Item>
                 <Button
