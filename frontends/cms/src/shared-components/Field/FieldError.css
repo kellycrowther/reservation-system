@@ -1,0 +1,6 @@
+.FieldError {
+  width: 100%;
+  transition: 0.28s;
+  /* TODO: remove hardcoded color */
+  color: red;
+}

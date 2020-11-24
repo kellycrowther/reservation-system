@@ -1,5 +1,6 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
+import { ActivityCreateUpdate } from "../components/Activities/AcitivityCreateUpdate";
 import { ActivitiesList } from "../components/Activities/ActivitiesList";
 import { Home } from "../components/Home/Home";
 
@@ -18,10 +19,16 @@ const routes = [
     component: <ActivitiesList />,
   },
   {
+    path: "/activities/new",
+    key: "activitiesNew",
+    exact: true,
+    component: <ActivityCreateUpdate />,
+  },
+  {
     path: "/activities/:id",
     key: "activitiesId",
     exact: true,
-    component: () => <p>Activity Detail Page!</p>,
+    component: <ActivityCreateUpdate />,
   },
 ];
 
