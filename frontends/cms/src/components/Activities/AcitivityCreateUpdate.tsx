@@ -185,65 +185,106 @@ export const ActivityCreateUpdate = () => {
                             />
                           </div>
                         </Col>
-                        <Col>
+                        <Col span={24}>
                           <div style={{ margin: "1em 0" }}>
                             <div style={{ fontWeight: "bold" }}>
                               Start Times
                             </div>
                             <FieldArray
                               name={`schedule.standard[${index}].hours`}
-                              render={({ push, remove }) =>
-                                values.schedule.standard[index].hours.map(
-                                  (hour, hourIndex) => (
-                                    <span key={hourIndex}>
-                                      <FormLabel label="Hour" />
-                                      <Select
-                                        placeholder="Hour"
-                                        name={`schedule.standard[${index}].hours[${hourIndex}].hour`}
-                                      >
-                                        {[...Array(24)].map(
-                                          (value, clockIndex) => (
-                                            <Option
-                                              key={clockIndex}
-                                              value={clockIndex}
-                                            >
-                                              {clockIndex}
-                                            </Option>
-                                          )
-                                        )}
-                                      </Select>
+                              render={({ push, remove }) => {
+                                return (
+                                  <Row>
+                                    {values.schedule.standard[index].hours.map(
+                                      (hour, hourIndex) => (
+                                        <Col span={4} key={hourIndex}>
+                                          <Row
+                                            style={{
+                                              justifyContent: "space-evenly",
+                                            }}
+                                          >
+                                            <Col>
+                                              <FormLabel label="Hour" />
+                                              <Select
+                                                placeholder="Hour"
+                                                name={`schedule.standard[${index}].hours[${hourIndex}].hour`}
+                                              >
+                                                {[...Array(24)].map(
+                                                  (value, clockIndex) => (
+                                                    <Option
+                                                      key={clockIndex}
+                                                      value={clockIndex}
+                                                    >
+                                                      {clockIndex}
+                                                    </Option>
+                                                  )
+                                                )}
+                                              </Select>
+                                            </Col>
 
-                                      <FormLabel label="Minute" />
-                                      <Select
-                                        placeholder="Minute"
-                                        name={`schedule.standard[${index}].hours[${hourIndex}].minutes`}
-                                      >
-                                        {[...Array(60)].map(
-                                          (value, clockIndex) => (
-                                            <Option
-                                              key={clockIndex}
-                                              value={clockIndex}
-                                            >
-                                              {clockIndex}
-                                            </Option>
-                                          )
-                                        )}
-                                      </Select>
-                                    </span>
-                                  )
-                                )
-                              }
+                                            <Col>
+                                              <FormLabel label="Minute" />
+                                              <Select
+                                                placeholder="Minute"
+                                                name={`schedule.standard[${index}].hours[${hourIndex}].minutes`}
+                                              >
+                                                {[...Array(60)].map(
+                                                  (value, clockIndex) => (
+                                                    <Option
+                                                      key={clockIndex}
+                                                      value={clockIndex}
+                                                    >
+                                                      {clockIndex}
+                                                    </Option>
+                                                  )
+                                                )}
+                                              </Select>
+                                            </Col>
+                                            <Row>
+                                              <Col>
+                                                <Space size={12}>
+                                                  <Button
+                                                    onClick={() =>
+                                                      remove(hourIndex)
+                                                    }
+                                                    type="ghost"
+                                                    danger
+                                                    icon={<MinusOutlined />}
+                                                  />
+                                                  <Button
+                                                    onClick={() =>
+                                                      push({
+                                                        hour: 0,
+                                                        minute: 0,
+                                                      })
+                                                    }
+                                                    type="primary"
+                                                    ghost
+                                                    icon={<PlusOutlined />}
+                                                  />
+                                                </Space>
+                                              </Col>
+                                            </Row>
+                                          </Row>
+                                        </Col>
+                                      )
+                                    )}
+                                  </Row>
+                                );
+                              }}
                             />
                           </div>
                         </Col>
-                        <Col>
+                        <Col span={24}>
                           <Space size={12}>
                             <Button
                               onClick={() => remove(index)}
                               type="ghost"
                               danger
                               icon={<MinusOutlined />}
-                            />
+                            >
+                              Remove Schedule
+                            </Button>
                             <Button
                               onClick={() =>
                                 push({
@@ -256,7 +297,9 @@ export const ActivityCreateUpdate = () => {
                               type="primary"
                               ghost
                               icon={<PlusOutlined />}
-                            />
+                            >
+                              Add Schedule
+                            </Button>
                           </Space>
                         </Col>
                       </Row>
