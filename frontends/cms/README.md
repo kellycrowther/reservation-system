@@ -55,3 +55,5 @@ This project was bootstrapped using:
 - `npm install customize-cra`
 - `npm install antd-theme-generator`
 - `npm i antd-theme-webpack-plugin`
+
+Using formik-antd bindings: https://github.com/jannikbuschke/formik-antd
