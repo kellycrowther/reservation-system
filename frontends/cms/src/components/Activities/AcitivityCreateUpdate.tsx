@@ -3,8 +3,11 @@ import { FieldArray, Formik } from "formik";
 import * as Yup from "yup";
 import { Form, Button, Row, Col, Typography, Space } from "antd";
 import { PlusOutlined, MinusOutlined } from "@ant-design/icons";
-import { Checkbox } from "formik-antd";
-import { DatePicker, Select } from "../../shared-components/formik-antd";
+import {
+  DatePicker,
+  Select,
+  Checkbox,
+} from "../../shared-components/formik-antd";
 import { StyledField } from "../../shared-components/Field/StyledField";
 import { FieldError } from "../../shared-components/Field/FieldError";
 import { useFetchLocations } from "../../hooks/useLocation";
@@ -12,6 +15,7 @@ import {
   Schedule,
   ScheduleDetail,
   ScheduleHours,
+  ScheduleWeekdays,
 } from "../../interfaces/Schedule";
 
 const { Title } = Typography;
@@ -25,6 +29,37 @@ interface InitialValues {
   locations: number[];
   schedule: Schedule;
 }
+
+const weekdays = [
+  {
+    name: "Sunday",
+    value: 0,
+  },
+  {
+    name: "Monday",
+    value: 1,
+  },
+  {
+    name: "Tuesday",
+    value: 2,
+  },
+  {
+    name: "Wednesday",
+    value: 3,
+  },
+  {
+    name: "Thursday",
+    value: 4,
+  },
+  {
+    name: "Friday",
+    value: 5,
+  },
+  {
+    name: "Saturday",
+    value: 6,
+  },
+];
 
 export const ActivityCreateUpdate = () => {
   const { data: locations } = useFetchLocations();
@@ -48,6 +83,7 @@ export const ActivityCreateUpdate = () => {
               minutes: 0,
             },
           ] as Array<ScheduleHours>,
+          weekdays: [] as Array<ScheduleWeekdays>,
         },
       ] as Array<ScheduleDetail>,
       exception: [
@@ -62,6 +98,7 @@ export const ActivityCreateUpdate = () => {
               minutes: 0,
             },
           ] as Array<ScheduleHours>,
+          weekdays: [] as Array<ScheduleWeekdays>,
         },
       ] as Array<ScheduleDetail>,
     } as Schedule,
@@ -186,94 +223,158 @@ export const ActivityCreateUpdate = () => {
                           </div>
                         </Col>
                         <Col span={24}>
-                          <div style={{ margin: "1em 0" }}>
-                            <div style={{ fontWeight: "bold" }}>
-                              Start Times
-                            </div>
-                            <FieldArray
-                              name={`schedule.standard[${index}].hours`}
-                              render={({ push, remove }) => {
-                                return (
-                                  <Row>
-                                    {values.schedule.standard[index].hours.map(
-                                      (hour, hourIndex) => (
-                                        <Col span={4} key={hourIndex}>
-                                          <Row
-                                            style={{
-                                              justifyContent: "space-evenly",
-                                            }}
-                                          >
-                                            <Col>
-                                              <FormLabel label="Hour" />
-                                              <Select
-                                                placeholder="Hour"
-                                                name={`schedule.standard[${index}].hours[${hourIndex}].hour`}
-                                              >
-                                                {[...Array(24)].map(
-                                                  (value, clockIndex) => (
-                                                    <Option
-                                                      key={clockIndex}
-                                                      value={clockIndex}
-                                                    >
-                                                      {clockIndex}
-                                                    </Option>
-                                                  )
-                                                )}
-                                              </Select>
-                                            </Col>
-
-                                            <Col>
-                                              <FormLabel label="Minute" />
-                                              <Select
-                                                placeholder="Minute"
-                                                name={`schedule.standard[${index}].hours[${hourIndex}].minutes`}
-                                              >
-                                                {[...Array(60)].map(
-                                                  (value, clockIndex) => (
-                                                    <Option
-                                                      key={clockIndex}
-                                                      value={clockIndex}
-                                                    >
-                                                      {clockIndex}
-                                                    </Option>
-                                                  )
-                                                )}
-                                              </Select>
-                                            </Col>
-                                            <Row>
+                          <Row>
+                            <Col span={8}>
+                              <div style={{ margin: "1em 0" }}>
+                                <div style={{ fontWeight: "bold" }}>
+                                  Weekdays
+                                </div>
+                                {/* Must be managed manually since we are rendering days with constant data */}
+                                <Row>
+                                  {weekdays.map((day, dayIndex) => {
+                                    return (
+                                      <Col
+                                        span={12}
+                                        style={{ textAlign: "left" }}
+                                        key={dayIndex}
+                                      >
+                                        <Checkbox
+                                          name=""
+                                          value={day.value}
+                                          checked={
+                                            !!values.schedule.standard[
+                                              index
+                                            ].weekdays.find(
+                                              (weekday) =>
+                                                weekday.day === day.value
+                                            )
+                                          }
+                                          onChange={(event) => {
+                                            const { value } = event.target;
+                                            if (
+                                              values.schedule.standard[
+                                                index
+                                              ].weekdays.find(
+                                                (weekday) =>
+                                                  weekday.day === value
+                                              )
+                                            ) {
+                                              values.schedule.standard[
+                                                index
+                                              ].weekdays.splice(
+                                                values.schedule.standard[
+                                                  index
+                                                ].weekdays.indexOf(value),
+                                                1
+                                              );
+                                            } else {
+                                              values.schedule.standard[
+                                                index
+                                              ].weekdays.push({
+                                                day: value,
+                                              } as ScheduleWeekdays);
+                                            }
+                                          }}
+                                        >
+                                          {day.name}
+                                        </Checkbox>
+                                      </Col>
+                                    );
+                                  })}
+                                </Row>
+                              </div>
+                            </Col>
+                            <Col span={16}>
+                              <div style={{ margin: "1em 0" }}>
+                                <div style={{ fontWeight: "bold" }}>
+                                  Start Times
+                                </div>
+                                <FieldArray
+                                  name={`schedule.standard[${index}].hours`}
+                                  render={({ push, remove }) => {
+                                    return (
+                                      <Row>
+                                        {values.schedule.standard[
+                                          index
+                                        ].hours.map((hour, hourIndex) => (
+                                          <Col span={6} key={hourIndex}>
+                                            <Row
+                                              style={{
+                                                justifyContent: "space-evenly",
+                                              }}
+                                            >
                                               <Col>
-                                                <Space size={12}>
-                                                  <Button
-                                                    onClick={() =>
-                                                      remove(hourIndex)
-                                                    }
-                                                    type="ghost"
-                                                    danger
-                                                    icon={<MinusOutlined />}
-                                                  />
-                                                  <Button
-                                                    onClick={() =>
-                                                      push({
-                                                        hour: 0,
-                                                        minute: 0,
-                                                      })
-                                                    }
-                                                    type="primary"
-                                                    ghost
-                                                    icon={<PlusOutlined />}
-                                                  />
-                                                </Space>
+                                                <FormLabel label="Hour" />
+                                                <Select
+                                                  placeholder="Hour"
+                                                  name={`schedule.standard[${index}].hours[${hourIndex}].hour`}
+                                                >
+                                                  {[...Array(24)].map(
+                                                    (value, clockIndex) => (
+                                                      <Option
+                                                        key={clockIndex}
+                                                        value={clockIndex}
+                                                      >
+                                                        {clockIndex}
+                                                      </Option>
+                                                    )
+                                                  )}
+                                                </Select>
                                               </Col>
+
+                                              <Col>
+                                                <FormLabel label="Minute" />
+                                                <Select
+                                                  placeholder="Minute"
+                                                  name={`schedule.standard[${index}].hours[${hourIndex}].minutes`}
+                                                >
+                                                  {[...Array(60)].map(
+                                                    (value, clockIndex) => (
+                                                      <Option
+                                                        key={clockIndex}
+                                                        value={clockIndex}
+                                                      >
+                                                        {clockIndex}
+                                                      </Option>
+                                                    )
+                                                  )}
+                                                </Select>
+                                              </Col>
+                                              <Row style={{ margin: "16px 0" }}>
+                                                <Col>
+                                                  <Space size={12}>
+                                                    <Button
+                                                      onClick={() =>
+                                                        remove(hourIndex)
+                                                      }
+                                                      type="ghost"
+                                                      danger
+                                                      icon={<MinusOutlined />}
+                                                    />
+                                                    <Button
+                                                      onClick={() =>
+                                                        push({
+                                                          hour: 0,
+                                                          minutes: 0,
+                                                        })
+                                                      }
+                                                      type="primary"
+                                                      ghost
+                                                      icon={<PlusOutlined />}
+                                                    />
+                                                  </Space>
+                                                </Col>
+                                              </Row>
                                             </Row>
-                                          </Row>
-                                        </Col>
-                                      )
-                                    )}
-                                  </Row>
-                                );
-                              }}
-                            />
-                          </div>
+                                          </Col>
+                                        ))}
+                                      </Row>
+                                    );
+                                  }}
+                                />
+                              </div>
+                            </Col>
+                          </Row>
                         </Col>
                         <Col span={24}>
                           <Space size={12}>
@@ -292,6 +393,13 @@ export const ActivityCreateUpdate = () => {
                                   description: "",
                                   startTime: "",
                                   endTime: "",
+                                  weekdays: [],
+                                  hours: [
+                                    {
+                                      hour: 0,
+                                      minutes: 0,
+                                    },
+                                  ],
                                 })
                               }
                               type="primary"
