@@ -28,11 +28,11 @@ export interface ScheduleWeekdays {
 }
 
 export interface ScheduleHours {
-  id: string;
+  id?: string;
   hour: number;
   minutes: number;
-  scheduleStandardId: string;
-  updatedAt: string;
-  createdAt: string;
-  _destroy: boolean;
+  scheduleStandardId?: string;
+  updatedAt?: string;
+  createdAt?: string;
+  _destroy?: boolean;
 }

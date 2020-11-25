@@ -1,14 +1,21 @@
 import React from "react";
-import { Formik } from "formik";
+import { FieldArray, Formik } from "formik";
 import * as Yup from "yup";
-import { Form, Button, Row, Col, Typography } from "antd";
+import { Form, Button, Row, Col, Typography, Space } from "antd";
+import { PlusOutlined, MinusOutlined } from "@ant-design/icons";
 import { Checkbox } from "formik-antd";
+import { DatePicker, Select } from "../../shared-components/formik-antd";
 import { StyledField } from "../../shared-components/Field/StyledField";
 import { FieldError } from "../../shared-components/Field/FieldError";
 import { useFetchLocations } from "../../hooks/useLocation";
-import { Schedule } from "../../interfaces/Schedule";
+import {
+  Schedule,
+  ScheduleDetail,
+  ScheduleHours,
+} from "../../interfaces/Schedule";
 
 const { Title } = Typography;
+const { Option } = Select;
 
 interface InitialValues {
   name: string;
@@ -28,7 +35,36 @@ export const ActivityCreateUpdate = () => {
     pictureUrl: "",
     capacity: 0,
     locations: [],
-    schedule: {} as Schedule,
+    schedule: {
+      standard: [
+        {
+          name: "",
+          description: "",
+          startTime: "",
+          endTime: "",
+          hours: [
+            {
+              hour: 0,
+              minutes: 0,
+            },
+          ] as Array<ScheduleHours>,
+        },
+      ] as Array<ScheduleDetail>,
+      exception: [
+        {
+          name: "",
+          description: "",
+          startTime: "",
+          endTime: "",
+          hours: [
+            {
+              hour: 0,
+              minutes: 0,
+            },
+          ] as Array<ScheduleHours>,
+        },
+      ] as Array<ScheduleDetail>,
+    } as Schedule,
   };
 
   const validationSchema = Yup.object({
@@ -113,6 +149,121 @@ export const ActivityCreateUpdate = () => {
               </Row>
 
               <div style={{ fontWeight: "bold" }}>Standard Schedule</div>
+              <FieldArray
+                name="schedule.standard"
+                render={({ push, remove }) =>
+                  values.schedule.standard.map((standardSchedule, index) => {
+                    return (
+                      <Row key={index} gutter={3}>
+                        <Col span={6}>
+                          <StyledField
+                            name={`schedule.standard[${index}].name`}
+                            label="Schedule Name"
+                            placeholder="Enter schedule name"
+                          />
+                        </Col>
+                        <Col span={6}>
+                          <StyledField
+                            name={`schedule.standard[${index}].description`}
+                            label="Schedule Description"
+                            placeholder="Enter schedule name"
+                          />
+                        </Col>
+                        <Col>
+                          <div style={{ margin: "1em 0" }}>
+                            <div style={{ fontWeight: "bold" }}>Start Date</div>
+                            <DatePicker
+                              name={`schedule.standard[${index}].startTime`}
+                            />
+                          </div>
+                        </Col>
+                        <Col>
+                          <div style={{ margin: "1em 0" }}>
+                            <div style={{ fontWeight: "bold" }}>End Date</div>
+                            <DatePicker
+                              name={`schedule.standard[${index}].endTime`}
+                            />
+                          </div>
+                        </Col>
+                        <Col>
+                          <div style={{ margin: "1em 0" }}>
+                            <div style={{ fontWeight: "bold" }}>
+                              Start Times
+                            </div>
+                            <FieldArray
+                              name={`schedule.standard[${index}].hours`}
+                              render={({ push, remove }) =>
+                                values.schedule.standard[index].hours.map(
+                                  (hour, hourIndex) => (
+                                    <span key={hourIndex}>
+                                      <FormLabel label="Hour" />
+                                      <Select
+                                        placeholder="Hour"
+                                        name={`schedule.standard[${index}].hours[${hourIndex}].hour`}
+                                      >
+                                        {[...Array(24)].map(
+                                          (value, clockIndex) => (
+                                            <Option
+                                              key={clockIndex}
+                                              value={clockIndex}
+                                            >
+                                              {clockIndex}
+                                            </Option>
+                                          )
+                                        )}
+                                      </Select>
+
+                                      <FormLabel label="Minute" />
+                                      <Select
+                                        placeholder="Minute"
+                                        name={`schedule.standard[${index}].hours[${hourIndex}].minutes`}
+                                      >
+                                        {[...Array(60)].map(
+                                          (value, clockIndex) => (
+                                            <Option
+                                              key={clockIndex}
+                                              value={clockIndex}
+                                            >
+                                              {clockIndex}
+                                            </Option>
+                                          )
+                                        )}
+                                      </Select>
+                                    </span>
+                                  )
+                                )
+                              }
+                            />
+                          </div>
+                        </Col>
+                        <Col>
+                          <Space size={12}>
+                            <Button
+                              onClick={() => remove(index)}
+                              type="ghost"
+                              danger
+                              icon={<MinusOutlined />}
+                            />
+                            <Button
+                              onClick={() =>
+                                push({
+                                  name: "",
+                                  description: "",
+                                  startTime: "",
+                                  endTime: "",
+                                })
+                              }
+                              type="primary"
+                              ghost
+                              icon={<PlusOutlined />}
+                            />
+                          </Space>
+                        </Col>
+                      </Row>
+                    );
+                  })
+                }
+              />
 
               <Form.Item>
                 <Button
@@ -130,3 +281,7 @@ export const ActivityCreateUpdate = () => {
     </Formik>
   );
 };
+
+const FormLabel = ({ label }: { label: string }) => (
+  <div style={{ fontWeight: "bold" }}>{label}</div>
+);
