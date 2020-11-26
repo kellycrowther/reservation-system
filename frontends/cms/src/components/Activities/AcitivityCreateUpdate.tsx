@@ -18,6 +18,8 @@ import {
   ScheduleWeekdays,
 } from "../../interfaces/Schedule";
 import { weekdays } from "./weekdays";
+import { useCreateActivity } from "../../hooks/useFetchActivitiesList";
+import { Redirect } from "react-router-dom";
 
 const { Title } = Typography;
 const { Option } = Select;
@@ -33,6 +35,11 @@ interface InitialValues {
 
 export const ActivityCreateUpdate = () => {
   const { data: locations } = useFetchLocations();
+  const { mutate, data } = useCreateActivity();
+
+  if (data) {
+    return <Redirect to={`/activities/${data.id}`} />;
+  }
 
   const initialValues: InitialValues = {
     name: "",
@@ -56,21 +63,7 @@ export const ActivityCreateUpdate = () => {
           weekdays: [] as Array<ScheduleWeekdays>,
         },
       ] as Array<ScheduleDetail>,
-      exception: [
-        {
-          name: "",
-          description: "",
-          startTime: "",
-          endTime: "",
-          hours: [
-            {
-              hour: 0,
-              minutes: 0,
-            },
-          ] as Array<ScheduleHours>,
-          weekdays: [] as Array<ScheduleWeekdays>,
-        },
-      ] as Array<ScheduleDetail>,
+      exception: [] as Array<ScheduleDetail>,
     } as Schedule,
   };
 
@@ -88,7 +81,7 @@ export const ActivityCreateUpdate = () => {
       validateOnChange
       onSubmit={(values, { setSubmitting }) => {
         console.info("VALUES: ", values);
-        // createUser(values);
+        mutate({ data: values } as any);
       }}
     >
       {({
@@ -346,7 +339,7 @@ export const ActivityCreateUpdate = () => {
                             </Col>
                           </Row>
                         </Col>
-                        <Col span={24}>
+                        <Col span={24} style={{ margin: "0 0 1em 0" }}>
                           <Space size={12}>
                             <Button
                               onClick={() => remove(index)}

@@ -9,26 +9,35 @@ export function useAsync<T>(
   const [error, setError] = useState();
   const [loading, setLoading] = useState(false);
 
-  const execute = useCallback(async () => {
-    setLoading(true);
-    setData(undefined);
-    setError(undefined);
-    try {
-      const { data } = await asyncFunction(params);
-      setData(data);
-    } catch (err) {
-      if (err.response) {
-        setError(err.response);
-      } else {
-        setError(err);
+  const execute = useCallback(
+    async (params?: any) => {
+      setLoading(true);
+      setData(undefined);
+      setError(undefined);
+      try {
+        const { data } = await asyncFunction(params);
+        setData(data);
+      } catch (err) {
+        if (err.response) {
+          setError(err.response);
+        } else {
+          setError(err);
+        }
+      } finally {
+        setLoading(false);
       }
-    } finally {
-      setLoading(false);
-    }
-  }, [asyncFunction, params]);
+    },
+    [asyncFunction]
+  );
 
   useEffect(() => {
-    execute();
+    let mounted = true;
+    if (mounted) {
+      execute();
+    }
+    return () => {
+      mounted = false;
+    };
   }, [execute]);
 
   return {
