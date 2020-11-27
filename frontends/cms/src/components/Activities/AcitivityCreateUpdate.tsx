@@ -15,6 +15,7 @@ import {
 import { useCreateActivity } from "../../hooks/useFetchActivitiesList";
 import { Redirect } from "react-router-dom";
 import { ScheduleCreateUpdate } from "./ScheduleCreateUpdate";
+import { Location } from "../../interfaces/Location";
 
 const { Title } = Typography;
 
@@ -23,17 +24,13 @@ interface InitialValues {
   description: string;
   pictureUrl: string;
   capacity: number;
-  locations: number[];
+  locations: Location[];
   schedule: Schedule;
 }
 
 export const ActivityCreateUpdate = () => {
   const { data: locations } = useFetchLocations();
-  const { mutate, data } = useCreateActivity();
-
-  if (data) {
-    return <Redirect to={`/activities/${data.id}`} />;
-  }
+  const { mutate, data: newActivity } = useCreateActivity();
 
   const initialValues: InitialValues = {
     name: "",
@@ -80,6 +77,10 @@ export const ActivityCreateUpdate = () => {
     description: Yup.string(),
     capacity: Yup.number().required("Capacity is required"),
   });
+
+  if (newActivity) {
+    return <Redirect to={`/activities/${newActivity.id}`} />;
+  }
 
   return (
     <Formik
@@ -144,15 +145,41 @@ export const ActivityCreateUpdate = () => {
                   <div style={{ fontWeight: "bold", margin: "1em 0 .25em 0" }}>
                     Locations
                   </div>
-                  <Checkbox.Group
-                    name="locations"
-                    options={locations?.map((location) => {
-                      return {
-                        label: location.name,
-                        value: location.id,
-                      };
+                  <Row>
+                    {locations?.map((fetchedLocation, locationIndex) => {
+                      return (
+                        <Col span={12} key={locationIndex}>
+                          <Checkbox
+                            name=""
+                            value={fetchedLocation.id}
+                            checked={
+                              !!values.locations.find(
+                                (location) => location.id === fetchedLocation.id
+                              )
+                            }
+                            onChange={(event) => {
+                              const { value } = event.target;
+                              if (
+                                values.locations.find(
+                                  (location) => location.id === value
+                                )
+                              ) {
+                                values.locations = values.locations.filter(
+                                  (location) => location.id !== value
+                                );
+                              } else {
+                                values.locations.push({
+                                  id: value,
+                                } as Location);
+                              }
+                            }}
+                          >
+                            {fetchedLocation.name}
+                          </Checkbox>
+                        </Col>
+                      );
                     })}
-                  />
+                  </Row>
                 </Col>
               </Row>
 

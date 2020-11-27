@@ -9,6 +9,7 @@ import {
 } from "../../shared-components/formik-antd";
 import { StyledField } from "../../shared-components/Field/StyledField";
 import { Schedule, ScheduleWeekdays } from "../../interfaces/Schedule";
+import { Location } from "../../interfaces/Location";
 import { weekdays } from "./weekdays";
 
 const { Option } = Select;
@@ -18,7 +19,7 @@ interface InitialValues {
   description: string;
   pictureUrl: string;
   capacity: number;
-  locations: number[];
+  locations: Location[];
   schedule: Schedule;
 }
 
