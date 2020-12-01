@@ -1,49 +1,45 @@
-import { AxiosResponse } from "axios";
+import axios from "axios";
 import { useEffect, useState, useCallback } from "react";
 
-export function useAsync<T>(
-  asyncFunction: (params?: any) => Promise<AxiosResponse<T>>,
-  params?: any
+interface UseFetch {
+  immediatelyInvoke: boolean;
+}
+
+export function useFetch<R>(
+  url: string,
+  params: any,
+  options: UseFetch = { immediatelyInvoke: true }
 ) {
-  const [data, setData] = useState<T>();
-  const [error, setError] = useState();
+  const [data, setData] = useState<R>();
+  const [error, setError] = useState(undefined);
   const [loading, setLoading] = useState(false);
 
-  const execute = useCallback(
-    async (params?: any) => {
-      setLoading(true);
-      setData(undefined);
-      setError(undefined);
-      try {
-        const { data } = await asyncFunction(params);
-        setData(data);
-      } catch (err) {
-        if (err.response) {
-          setError(err.response);
-        } else {
-          setError(err);
-        }
-      } finally {
-        setLoading(false);
+  const fetch = useCallback(async () => {
+    setLoading(true);
+    try {
+      const { data } = await axios.get(url, params);
+      setData(data);
+    } catch (err) {
+      if (err.response) {
+        setError(err.response);
+      } else {
+        setError(err);
       }
-    },
-    [asyncFunction]
-  );
+    } finally {
+      setLoading(false);
+    }
+  }, [params, url]);
 
   useEffect(() => {
     let mounted = true;
-    if (mounted) {
-      execute();
+
+    if (mounted && options.immediatelyInvoke) {
+      fetch();
     }
+
     return () => {
       mounted = false;
     };
-  }, [execute]);
-
-  return {
-    data,
-    error,
-    loading,
-    execute,
-  };
+  }, [fetch, options.immediatelyInvoke]);
+  return { data, error, loading, fetch };
 }

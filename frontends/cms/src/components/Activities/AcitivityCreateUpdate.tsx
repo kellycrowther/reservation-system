@@ -12,27 +12,26 @@ import {
   ScheduleHours,
   ScheduleWeekdays,
 } from "../../interfaces/Schedule";
-import { useCreateActivity } from "../../hooks/useFetchActivitiesList";
-import { Redirect } from "react-router-dom";
+import {
+  useCreateActivity,
+  useFetchActivity,
+} from "../../hooks/useFetchActivitiesList";
+import { Redirect, useParams } from "react-router-dom";
 import { ScheduleCreateUpdate } from "./ScheduleCreateUpdate";
 import { Location } from "../../interfaces/Location";
+import { Activity } from "../../interfaces/Activity";
 
 const { Title } = Typography;
-
-interface InitialValues {
-  name: string;
-  description: string;
-  pictureUrl: string;
-  capacity: number;
-  locations: Location[];
-  schedule: Schedule;
-}
 
 export const ActivityCreateUpdate = () => {
   const { data: locations } = useFetchLocations();
   const { mutate, data: newActivity } = useCreateActivity();
+  const { id } = useParams<{ id: string }>();
+  const { data: activity } = useFetchActivity(id);
 
-  const initialValues: InitialValues = {
+  console.info("ACTIVITY: ", activity);
+
+  const initialValues: Activity = activity || {
     name: "",
     description: "",
     pictureUrl: "",

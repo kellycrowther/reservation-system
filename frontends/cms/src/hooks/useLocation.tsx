@@ -1,13 +1,6 @@
-import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
 import { Location } from "../interfaces/Location";
-import { useAsync } from "./useAsyncFetch";
+import { useFetch } from "./useAsyncFetch";
 
-export const useFetchLocations = (config?: AxiosRequestConfig) => {
-  return useAsync(getLocations, config);
+export const useFetchLocations = (params?: any) => {
+  return useFetch<Array<Location>>("/api/locations", params);
 };
-
-async function getLocations(
-  config?: AxiosRequestConfig
-): Promise<AxiosResponse<Array<Location>>> {
-  return axios.get("/api/locations", config);
-}

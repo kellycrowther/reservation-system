@@ -1,17 +1,17 @@
 import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
 import { Activity } from "../interfaces/Activity";
-import { useAsync } from "./useAsyncFetch";
+import { useFetch } from "./useAsyncFetch";
 import { useMutation } from "./useMutation";
 
-export const useFetchActivitiesList = (config?: AxiosRequestConfig) => {
-  return useAsync(getActivities, config);
-};
-
-async function getActivities(
-  config?: AxiosRequestConfig
-): Promise<AxiosResponse<Array<Activity>>> {
-  return axios.get("/api/activities", config);
+export function useFetchActivitiesList(params?: any) {
+  return useFetch<Array<Activity>>("/api/activities", params);
 }
+
+export const useFetchActivity = (id: string, params?: any) => {
+  return useFetch<Activity>(`/api/activities/${id}`, params, {
+    immediatelyInvoke: !!id,
+  });
+};
 
 export const useCreateActivity = () => {
   return useMutation(createActivity);

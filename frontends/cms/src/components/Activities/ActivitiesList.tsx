@@ -11,7 +11,7 @@ const Title = () => {
 
 export const ActivitiesList = () => {
   const history = useHistory();
-  const { data, error, loading, execute } = useFetchActivitiesList();
+  const { data, error, loading, fetch } = useFetchActivitiesList();
 
   const columns = [
     {
@@ -35,7 +35,7 @@ export const ActivitiesList = () => {
             status="warning"
             title="There was a problem fetching the activities. Please try refreshing the page."
             extra={
-              <Button type="primary" key="console" onClick={() => execute()}>
+              <Button type="primary" key="console" onClick={() => fetch()}>
                 Refresh Page
               </Button>
             }

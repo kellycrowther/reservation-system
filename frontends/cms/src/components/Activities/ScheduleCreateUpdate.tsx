@@ -8,20 +8,11 @@ import {
   Checkbox,
 } from "../../shared-components/formik-antd";
 import { StyledField } from "../../shared-components/Field/StyledField";
-import { Schedule, ScheduleWeekdays } from "../../interfaces/Schedule";
-import { Location } from "../../interfaces/Location";
+import { ScheduleWeekdays } from "../../interfaces/Schedule";
 import { weekdays } from "./weekdays";
+import { Activity } from "../../interfaces/Activity";
 
 const { Option } = Select;
-
-interface InitialValues {
-  name: string;
-  description: string;
-  pictureUrl: string;
-  capacity: number;
-  locations: Location[];
-  schedule: Schedule;
-}
 
 type SchedulePath = "standard" | "exception";
 
@@ -30,7 +21,7 @@ export const ScheduleCreateUpdate = ({
   schedulePath,
   scheduleName,
 }: {
-  values: InitialValues;
+  values: Activity;
   schedulePath: SchedulePath;
   scheduleName: string;
 }) => {
