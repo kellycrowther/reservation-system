@@ -1,7 +1,7 @@
 import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
 import { Activity } from "../interfaces/Activity";
-import { useFetch } from "./useAsyncFetch";
-import { useMutation } from "./useMutation";
+import { useFetch } from "../hooks/useAsyncFetch";
+import { useMutation } from "../hooks/useMutation";
 
 export function useFetchActivitiesList(params?: any) {
   return useFetch<Array<Activity>>("/api/activities", params);

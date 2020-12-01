@@ -2,10 +2,10 @@ import React from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { Form, Button, Row, Col, Typography } from "antd";
-import { Checkbox } from "../../shared-components/formik-antd";
-import { StyledField } from "../../shared-components/Field/StyledField";
-import { FieldError } from "../../shared-components/Field/FieldError";
-import { useFetchLocations } from "../../hooks/useLocation";
+import { Checkbox } from "../../components/formik-antd";
+import { StyledField } from "../../components/Field/StyledField";
+import { FieldError } from "../../components/Field/FieldError";
+import { useFetchLocations } from "../../services/location.service";
 import {
   Schedule,
   ScheduleDetail,
@@ -15,7 +15,7 @@ import {
 import {
   useCreateActivity,
   useFetchActivity,
-} from "../../hooks/useFetchActivitiesList";
+} from "../../services/activity.service";
 import { Redirect, useParams } from "react-router-dom";
 import { ScheduleCreateUpdate } from "./ScheduleCreateUpdate";
 import { Location } from "../../interfaces/Location";

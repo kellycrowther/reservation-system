@@ -2,12 +2,8 @@ import React from "react";
 import { FieldArray } from "formik";
 import { Button, Row, Col, Space } from "antd";
 import { PlusOutlined, MinusOutlined } from "@ant-design/icons";
-import {
-  DatePicker,
-  Select,
-  Checkbox,
-} from "../../shared-components/formik-antd";
-import { StyledField } from "../../shared-components/Field/StyledField";
+import { DatePicker, Select, Checkbox } from "../../components/formik-antd";
+import { StyledField } from "../../components/Field/StyledField";
 import { ScheduleWeekdays } from "../../interfaces/Schedule";
 import { weekdays } from "./weekdays";
 import { Activity } from "../../interfaces/Activity";

@@ -2,7 +2,7 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import { Table, Row, Col, Result, Button } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-import { useFetchActivitiesList } from "../../hooks/useFetchActivitiesList";
+import { useFetchActivitiesList } from "../../services/activity.service";
 import "./ActivitiesList.css";
 
 const Title = () => {

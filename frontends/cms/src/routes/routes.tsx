@@ -1,8 +1,8 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
-import { ActivityCreateUpdate } from "../components/Activities/AcitivityCreateUpdate";
-import { ActivitiesList } from "../components/Activities/ActivitiesList";
-import { Home } from "../components/Home/Home";
+import { ActivityCreateUpdate } from "../pages/Activities/AcitivityCreateUpdate";
+import { ActivitiesList } from "../pages/Activities/ActivitiesList";
+import { Home } from "../pages/Home/Home";
 
 const routes = [
   { path: "/", key: "ROOT", exact: true, component: <Home /> },
