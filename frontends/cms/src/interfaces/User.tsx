@@ -13,7 +13,7 @@ export interface UserAttributes {
 }
 
 export interface DecodedToken {
-  iat: number | null;
-  exp: number | null;
-  sub: string | null;
+  iat: number;
+  exp: number;
+  sub: string;
 }
