@@ -1,5 +1,5 @@
 import { config } from "../config";
-import jwt from "jsonwebtoken";
+import * as jwt from "jsonwebtoken";
 import * as bcrypt from "bcryptjs";
 import { db } from "../db/index";
 

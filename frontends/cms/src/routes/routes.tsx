@@ -3,6 +3,7 @@ import { Switch, Route } from "react-router-dom";
 import { ActivityCreateUpdate } from "../pages/Activities/AcitivityCreateUpdate";
 import { ActivitiesList } from "../pages/Activities/ActivitiesList";
 import { Home } from "../pages/Home/Home";
+import { Login } from "../pages/Login/Login";
 
 const routes = [
   { path: "/", key: "ROOT", exact: true, component: <Home /> },
@@ -29,6 +30,12 @@ const routes = [
     key: "activitiesId",
     exact: true,
     component: <ActivityCreateUpdate />,
+  },
+  {
+    path: "/login",
+    key: "login",
+    exact: true,
+    component: <Login />,
   },
 ];
 
