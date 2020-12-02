@@ -8,4 +8,12 @@ export interface UserAttributes {
   token?: string;
   createdAt?: string;
   updatedAt?: string;
+  isAuthenticated?: boolean;
+  decodedToken?: DecodedToken | string | { [key: string]: any } | null;
+}
+
+export interface DecodedToken {
+  iat: number | null;
+  exp: number | null;
+  sub: string | null;
 }
