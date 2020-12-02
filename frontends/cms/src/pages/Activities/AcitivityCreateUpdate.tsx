@@ -15,6 +15,7 @@ import {
 import {
   useCreateActivity,
   useFetchActivity,
+  useUpdateActivity,
 } from "../../services/activity.service";
 import { Redirect, useParams } from "react-router-dom";
 import { ScheduleCreateUpdate } from "./ScheduleCreateUpdate";
@@ -28,48 +29,52 @@ export const ActivityCreateUpdate = () => {
   const { mutate, data: newActivity } = useCreateActivity();
   const { id } = useParams<{ id: string }>();
   const { data: activity } = useFetchActivity(id);
+  const { data: updatedActivity, execute: updateActivity } = useUpdateActivity(
+    id
+  );
 
   console.info("ACTIVITY: ", activity);
 
-  const initialValues: Activity = activity || {
-    name: "",
-    description: "",
-    pictureUrl: "",
-    capacity: 0,
-    locations: [],
-    schedule: {
-      standard: [
-        {
-          name: "",
-          description: "",
-          startTime: "",
-          endTime: "",
-          hours: [
-            {
-              hour: 0,
-              minutes: 0,
-            },
-          ] as Array<ScheduleHours>,
-          weekdays: [] as Array<ScheduleWeekdays>,
-        },
-      ] as Array<ScheduleDetail>,
-      exception: [
-        {
-          name: "",
-          description: "",
-          startTime: "",
-          endTime: "",
-          hours: [
-            {
-              hour: 0,
-              minutes: 0,
-            },
-          ] as Array<ScheduleHours>,
-          weekdays: [] as Array<ScheduleWeekdays>,
-        },
-      ] as Array<ScheduleDetail>,
-    } as Schedule,
-  };
+  const initialValues: Activity = updatedActivity ||
+    activity || {
+      name: "",
+      description: "",
+      pictureUrl: "",
+      capacity: 0,
+      locations: [],
+      schedule: {
+        standard: [
+          {
+            name: "",
+            description: "",
+            startTime: "",
+            endTime: "",
+            hours: [
+              {
+                hour: 0,
+                minutes: 0,
+              },
+            ] as Array<ScheduleHours>,
+            weekdays: [] as Array<ScheduleWeekdays>,
+          },
+        ] as Array<ScheduleDetail>,
+        exception: [
+          {
+            name: "",
+            description: "",
+            startTime: "",
+            endTime: "",
+            hours: [
+              {
+                hour: 0,
+                minutes: 0,
+              },
+            ] as Array<ScheduleHours>,
+            weekdays: [] as Array<ScheduleWeekdays>,
+          },
+        ] as Array<ScheduleDetail>,
+      } as Schedule,
+    };
 
   const validationSchema = Yup.object({
     name: Yup.string().required("Name is required"),
@@ -89,7 +94,7 @@ export const ActivityCreateUpdate = () => {
       validateOnChange
       onSubmit={(values, { setSubmitting }) => {
         console.info("VALUES: ", values);
-        mutate({ data: values } as any);
+        id ? updateActivity({ data: values }) : mutate({ data: values });
       }}
     >
       {({
@@ -195,12 +200,8 @@ export const ActivityCreateUpdate = () => {
               />
 
               <Form.Item>
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                  disabled={!(isValid && dirty)}
-                >
-                  Create Activity
+                <Button type="primary" htmlType="submit" disabled={!isValid}>
+                  {id ? "Update" : "Create"} Activity
                 </Button>
               </Form.Item>
             </form>

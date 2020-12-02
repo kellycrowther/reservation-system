@@ -2,6 +2,7 @@ import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
 import { Activity } from "../interfaces/Activity";
 import { useFetch } from "../hooks/useAsyncFetch";
 import { useMutation } from "../hooks/useMutation";
+import { useAxios } from "../hooks/useAxios";
 
 export function useFetchActivitiesList(params?: any) {
   return useFetch<Array<Activity>>("/api/activities", params);
@@ -26,3 +27,13 @@ async function createActivity({
 }): Promise<AxiosResponse<Activity>> {
   return axios.post("/api/activities", data, config);
 }
+
+export const useUpdateActivity = (id: string) => {
+  return useAxios<Activity>(
+    {
+      url: `/api/activities/${id}`,
+      method: "PUT",
+    },
+    { immediatelyInvoke: false }
+  );
+};

@@ -72,7 +72,7 @@ function updateActivitySchema(req, res, next) {
           startTime: Joi.string().empty(""),
           endTime: Joi.string().empty(""),
           weekdays: Joi.array().items({
-            day: Joi.string().empty(""),
+            day: Joi.number().empty("").allow(null),
           }),
           hours: Joi.array().items({
             hour: Joi.number().empty(""),
@@ -86,7 +86,7 @@ function updateActivitySchema(req, res, next) {
         startTime: Joi.string().empty(""),
         endTime: Joi.string().empty(""),
         weekdays: Joi.array().items({
-          day: Joi.string().empty(""),
+          day: Joi.number().empty("").allow(null),
         }),
         hours: Joi.array().items({
           hour: Joi.number().empty(""),
