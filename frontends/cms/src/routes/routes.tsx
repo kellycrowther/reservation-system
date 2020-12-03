@@ -49,7 +49,6 @@ const routes = [
 export function RenderRoutes() {
   const { user } = useContext(UserContext);
 
-  console.info("USER: ", user);
   return (
     <Switch>
       {routes.map((route, i) => {

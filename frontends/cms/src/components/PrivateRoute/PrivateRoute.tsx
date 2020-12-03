@@ -11,8 +11,12 @@ interface PrivateRouteProps {
 export const PrivateRoute = ({
   component: Component,
   isAuthenticated,
+  path,
+  exact,
 }: PrivateRouteProps) => {
   return (
-    <Route>{isAuthenticated ? Component : <Redirect to="/login" />}</Route>
+    <Route path={path} exact={exact}>
+      {isAuthenticated ? Component : <Redirect to="/login" />}
+    </Route>
   );
 };

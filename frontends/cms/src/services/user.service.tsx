@@ -3,6 +3,7 @@ import * as jwt from "jsonwebtoken";
 import { UserContext } from "../context/userContext";
 import { useAxios } from "../hooks/useAxios";
 import { UserAttributes } from "../interfaces/User";
+import { useFetch } from "../hooks/useAsyncFetch";
 
 export const useAuthenticate = () => {
   const { setUser } = useContext(UserContext);
@@ -28,4 +29,10 @@ export const useAuthenticate = () => {
   }, [res.data, setUser]);
 
   return res;
+};
+
+export const useFetchUser = (id: string) => {
+  return useFetch<UserAttributes>(`/api/users/${id}`, null, {
+    immediatelyInvoke: !!id,
+  });
 };

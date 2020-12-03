@@ -33,8 +33,6 @@ export const ActivityCreateUpdate = () => {
     id
   );
 
-  console.info("ACTIVITY: ", activity);
-
   const initialValues: Activity = updatedActivity ||
     activity || {
       name: "",
@@ -93,7 +91,6 @@ export const ActivityCreateUpdate = () => {
       validationSchema={validationSchema}
       validateOnChange
       onSubmit={(values, { setSubmitting }) => {
-        console.info("VALUES: ", values);
         id ? updateActivity({ data: values }) : mutate({ data: values });
       }}
     >

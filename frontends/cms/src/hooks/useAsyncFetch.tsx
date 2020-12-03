@@ -1,5 +1,5 @@
-import axios from "axios";
 import { useEffect, useState, useCallback } from "react";
+import { cmsAxiosInstance } from "../utils/axios.utils";
 
 interface UseFetch {
   immediatelyInvoke: boolean;
@@ -7,7 +7,7 @@ interface UseFetch {
 
 export function useFetch<R>(
   url: string,
-  params: any,
+  params?: any,
   options: UseFetch = { immediatelyInvoke: true }
 ) {
   const [data, setData] = useState<R>();
@@ -17,7 +17,7 @@ export function useFetch<R>(
   const fetch = useCallback(async () => {
     setLoading(true);
     try {
-      const { data } = await axios.get(url, params);
+      const { data } = await cmsAxiosInstance.get(url, params);
       setData(data);
     } catch (err) {
       if (err.response) {

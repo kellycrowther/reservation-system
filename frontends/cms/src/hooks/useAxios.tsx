@@ -1,5 +1,6 @@
-import axios, { AxiosRequestConfig } from "axios";
+import { AxiosRequestConfig } from "axios";
 import { useEffect, useState, useCallback, useMemo } from "react";
+import { cmsAxiosInstance } from "../utils/axios.utils";
 
 interface UseFetch {
   immediatelyInvoke: boolean;
@@ -33,7 +34,10 @@ export function useAxios<R>(
     async (payloadData?) => {
       setLoading(true);
       try {
-        const { data } = await axios({ ...axiosConfig, ...payloadData });
+        const { data } = await cmsAxiosInstance({
+          ...axiosConfig,
+          ...payloadData,
+        });
         setData(data);
       } catch (err) {
         if (err.response) {
