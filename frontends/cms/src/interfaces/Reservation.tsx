@@ -9,7 +9,17 @@ export interface Reservation {
   updatedAt: string;
   createdAt: string;
   userId: string;
-  locationId: string;
+  locationId: number;
   location: Location;
   activity: Activity;
+  activityId: string;
+}
+
+export interface ReservationInput {
+  name: string;
+  userId: string;
+  activityId: string;
+  locationId: number;
+  startTime: string;
+  quantity: number;
 }

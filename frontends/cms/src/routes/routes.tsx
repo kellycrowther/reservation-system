@@ -9,6 +9,7 @@ import { PrivateRoute } from "../components/PrivateRoute/PrivateRoute";
 import { Locations } from "../pages/Locations/Locations";
 import { Reservations } from "../pages/Reservations/Reservations";
 import { Users } from "../pages/Users/Users";
+import { ReservationCreateUpdate } from "../pages/Reservations/ReservationCreateUpdate";
 
 const routes = [
   { path: "/", key: "ROOT", exact: true, isPrivate: true, component: <Home /> },
@@ -18,6 +19,20 @@ const routes = [
     exact: true,
     isPrivate: true,
     component: <Reservations />,
+  },
+  {
+    path: "/reservations/new",
+    key: "resNew",
+    exact: true,
+    isPrivate: true,
+    component: <ReservationCreateUpdate />,
+  },
+  {
+    path: "/reservations/:id",
+    key: "resId",
+    exact: true,
+    isPrivate: true,
+    component: <ReservationCreateUpdate />,
   },
   {
     path: "/activities",
