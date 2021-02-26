@@ -18,7 +18,7 @@ export const StartApp = ({ children }: StartAppProps) => {
   useEffect(() => {
     const userContext = {
       ...(user as UserAttributes),
-      isAuthenticated: true,
+      isAuthenticated: !!user,
       decodedToken: jwt.decode(token || ""),
     };
     setUser(userContext);

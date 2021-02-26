@@ -12,6 +12,10 @@
 - figure out migrations
 - add authorization to routes
 - make it query by organization by default
+- list reservations in CMS
+- list locations in CMS
+- list users in CMS
+- make
 
 ## Plans
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { Layout, Menu, Row, Col } from "antd";
 import {
@@ -7,15 +7,18 @@ import {
   TrophyOutlined,
   ScheduleOutlined,
   HomeOutlined,
+  LogoutOutlined,
 } from "@ant-design/icons";
 import "./App.css";
 import { ThemeSwitcher } from "./components/ThemeSwitcher/ThemeSwitcher";
 import { RenderRoutes } from "./routes/routes";
+import { UserContext } from "./context/userContext";
 
 const { Header, Content, Footer, Sider } = Layout;
 
 function App() {
   const [collapsed, setCollapsed] = useState(false);
+  const { logout } = useContext(UserContext);
 
   return (
     <div className="App">
@@ -61,8 +64,15 @@ function App() {
         >
           <Header className="site-layout-background" style={{ padding: 0 }}>
             <Row>
-              <Col offset={23} span={1} style={{ textAlign: "right" }}>
+              <Col offset={22} span={1} style={{ textAlign: "right" }}>
                 <ThemeSwitcher />
+              </Col>
+              <Col
+                onClick={() => logout()}
+                span={1}
+                style={{ color: "#ffffffa6", cursor: "pointer" }}
+              >
+                <LogoutOutlined />
               </Col>
             </Row>
           </Header>

@@ -6,6 +6,9 @@ import { Home } from "../pages/Home/Home";
 import { Login } from "../pages/Login/Login";
 import { UserContext } from "../context/userContext";
 import { PrivateRoute } from "../components/PrivateRoute/PrivateRoute";
+import { Locations } from "../pages/Locations/Locations";
+import { Reservations } from "../pages/Reservations/Reservations";
+import { Users } from "../pages/Users/Users";
 
 const routes = [
   { path: "/", key: "ROOT", exact: true, isPrivate: true, component: <Home /> },
@@ -14,7 +17,7 @@ const routes = [
     key: "res",
     exact: true,
     isPrivate: true,
-    component: () => <p>Reservations List!</p>,
+    component: <Reservations />,
   },
   {
     path: "/activities",
@@ -36,6 +39,20 @@ const routes = [
     exact: true,
     isPrivate: true,
     component: <ActivityCreateUpdate />,
+  },
+  {
+    path: "/locations",
+    key: "locations",
+    exact: true,
+    isPrivate: true,
+    component: <Locations />,
+  },
+  {
+    path: "/users",
+    key: "users",
+    exact: true,
+    isPrivate: true,
+    component: <Users />,
   },
   {
     path: "/login",
