@@ -15,7 +15,7 @@
 - list reservations in CMS
 - list locations in CMS
 - list users in CMS
-- make
+- make listing page component that can be shared
 
 ## Plans
 
