@@ -36,3 +36,7 @@ export const useFetchUser = (id: string) => {
     immediatelyInvoke: !!id,
   });
 };
+
+export function useFetchUsersList(params?: any) {
+  return useFetch<Array<UserAttributes>>("/api/users", params);
+}
