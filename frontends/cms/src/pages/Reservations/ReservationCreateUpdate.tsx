@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import "./ReservationCreateUpdate.css";
 import { Redirect, useParams } from "react-router-dom";
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -36,7 +37,8 @@ export const ReservationCreateUpdate = () => {
   const initialValues: ReservationInput = {
     name: updatedReservation?.name || reservation?.name || "",
     userId: user?.id || "",
-    activityId: updatedReservation?.activityId || reservation?.activityId || "",
+    activityId:
+      updatedReservation?.activityId || reservation?.activity.id || "",
     locationId: updatedReservation?.locationId || reservation?.locationId || 0,
     startTime: updatedReservation?.startTime || reservation?.startTime || "",
     quantity: updatedReservation?.quantity || reservation?.quantity || 0,
@@ -109,7 +111,7 @@ export const ReservationCreateUpdate = () => {
                   <div style={{ fontWeight: "bold", margin: "1em 0 .25em 0" }}>
                     Location
                   </div>
-                  <Row>
+                  <Row justify="center">
                     <Radio.Group
                       value={values.locationId}
                       onChange={(event) => {
@@ -119,11 +121,9 @@ export const ReservationCreateUpdate = () => {
                     >
                       {locations?.map((fetchedLocation, locationIndex) => {
                         return (
-                          <Col span={12} key={locationIndex}>
-                            <Radio value={fetchedLocation.id}>
-                              {fetchedLocation.name}
-                            </Radio>
-                          </Col>
+                          <Radio key={locationIndex} value={fetchedLocation.id}>
+                            {fetchedLocation.name}
+                          </Radio>
                         );
                       })}
                     </Radio.Group>
@@ -138,6 +138,7 @@ export const ReservationCreateUpdate = () => {
                     placeholder="Activity"
                     name="activityId"
                     value={values.activityId}
+                    className="activity-select"
                   >
                     {activities?.map((value, activityIndex) => (
                       <Option key={activityIndex} value={value.id || ""}>
@@ -156,7 +157,7 @@ export const ReservationCreateUpdate = () => {
                 </Col>
               </Row>
 
-              <Form.Item>
+              <Form.Item className="submit-btn">
                 <Button type="primary" htmlType="submit" disabled={!isValid}>
                   {id ? "Update" : "Create"} Reservation
                 </Button>

@@ -9,6 +9,7 @@ import {
   HomeOutlined,
   LogoutOutlined,
 } from "@ant-design/icons";
+import moment from "moment";
 import "./App.css";
 import { ThemeSwitcher } from "./components/ThemeSwitcher/ThemeSwitcher";
 import { RenderRoutes } from "./routes/routes";
@@ -80,7 +81,7 @@ function App() {
             <RenderRoutes />
           </Content>
           <Footer style={{ textAlign: "center" }}>
-            Ant Design ©2018 Created by Ant UED
+            Created by Kelly Crowther ©{moment().year()}
           </Footer>
         </Layout>
       </Layout>

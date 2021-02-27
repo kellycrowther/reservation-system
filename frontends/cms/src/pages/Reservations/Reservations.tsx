@@ -1,4 +1,5 @@
 import React from "react";
+import "./Reservations.css";
 import { useHistory } from "react-router-dom";
 import { Table, Row, Col, Result, Button } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
@@ -58,8 +59,8 @@ export const Reservations = () => {
           />
         ) : (
           <>
-            <Row>
-              <Col offset={20} span={4}>
+            <Row className="new-resource-container">
+              <Col offset={20} span={4} className="new-resource">
                 <Button
                   onClick={() => history.push("/reservations/new")}
                   type="primary"
@@ -75,6 +76,7 @@ export const Reservations = () => {
               loading={loading}
               rowKey="id"
               title={() => <Title />}
+              rowClassName="activity-row"
               onRow={(record, rowIndex) => {
                 return {
                   onClick: (event) =>

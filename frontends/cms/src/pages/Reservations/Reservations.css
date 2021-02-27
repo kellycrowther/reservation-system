@@ -1,0 +1,10 @@
+.activity-row {
+  cursor: pointer;
+}
+.new-resource-container {
+  margin: 16px 0px;
+}
+
+.new-resource {
+  text-align: right;
+}
